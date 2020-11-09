@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/NavBar.css';
+import { Button, FormGroup, FormControl, ControlLabel,Form,Navbar,Nav } from "react-bootstrap";
 
 class NavBar extends Component {
     constructor(props) {
@@ -10,11 +10,17 @@ class NavBar extends Component {
     render() { 
         return ( 
         <div className="navBar">
-            <ul className="navLink">
-                <Link to="/">
-                    <li>Home</li>
-                </Link>
-            </ul>
+  <Navbar bg="dark" variant="dark">
+    <Navbar.Brand>IT SISTEMA</Navbar.Brand>
+    <Nav className="mr-auto">
+      <Nav.Link href="/">Pagrindinis</Nav.Link>
+      <Nav.Link href="/viewprofile">Profilis</Nav.Link>
+    </Nav>
+    <Nav inline>
+      <Nav.Link href="/login" className="mr-sm-2">Prisijungti</Nav.Link>
+      <Nav.Link href="/register" className="mr-sm-2">Registruotis</Nav.Link>
+    </Nav>
+  </Navbar>
         </div> );
     }
 }
