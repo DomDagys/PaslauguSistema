@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, FormGroup, FormControl, ControlLabel,Form,Navbar,Nav } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Form, Navbar, Nav } from "react-bootstrap";
 
 class NavBar extends Component {
     constructor(props) {
@@ -15,6 +15,7 @@ class NavBar extends Component {
     <Nav className="mr-auto">
       <Nav.Link href="/">Pagrindinis</Nav.Link>
       <Nav.Link href="/viewprofile">Profilis</Nav.Link>
+      <Nav.Link href="/admin">Valdyti turinį ir paskyras</Nav.Link>
     </Nav>
     <Nav inline>
       <Nav.Link href="/login" className="mr-sm-2">Prisijungti</Nav.Link>

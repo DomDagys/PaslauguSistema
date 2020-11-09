@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import { NavBar } from './components';
-import { HomePage } from './pages';
+import { HomePage, AdminPage } from './pages';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
@@ -12,7 +12,9 @@ function App() {
     <Router>
       <div className="App">
         <NavBar></NavBar>
-        <Route path="/" exact component={HomePage} />
+        <Route path="/" exact>
+          <HomePage/>
+        </Route>
         <Route path="/register">
           <Register/>
         </Route>
@@ -27,6 +29,9 @@ function App() {
         </Route>
         <Route path="/editprofile">
           <EditProfile/>
+        </Route>
+        <Route path="/admin">
+          <AdminPage/>
         </Route>
       </div>
     </Router>
