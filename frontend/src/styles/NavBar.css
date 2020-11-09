@@ -1,0 +1,18 @@
+.navBar {
+    display: flex;
+    background-color: darkcyan;
+    width: 100%;
+}
+
+.navLink {
+    list-style: none;
+    margin-right: 2.5em;
+    color: white;
+    font-size: 20px;
+    margin-left: 2.5em;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+}
