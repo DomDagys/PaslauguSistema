@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
+import '../styles/Admin.css'
 
 class UserPostsTable extends Component {
     constructor(props) {
@@ -8,33 +9,42 @@ class UserPostsTable extends Component {
     }
     render() { 
         return ( <div>
+            <h1 className="center">Vartotojo skelbimų paieška</h1>
+            <div className="searchBar">
+                <input type="text" className="searchField" value="Vartotojo vardas"></input>
+                <Button variant="primary">Ieškoti</Button>
+            </div>
 <Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Username</th>
+      <th>Antraštė</th>
+      <th>Aprašymas</th>
+      <th>Kategorija</th>
+      <th>Peržiūros</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td>Video montavimas</td>
+      <td>Montuoju nusiųstus video įrašus.</td>
+      <td>Video ir animacija</td>
+      <td>200</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
+      <td>Animuoju video</td>
+      <td>Kūriu animacinius video pagal jūsų prašymą.</td>
+      <td>Video ir animacija</td>
+      <td>220</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>Larry the Bird</td>
-      <td>@twitter</td>
-      <td>Larry the Bird</td>
+      <td>Video įrašų montavimo kursai</td>
+      <td>Dėstau kaip montuoti video įrašus</td>
+      <td>Video ir animacija</td>
+      <td>160</td>
     </tr>
   </tbody>
 </Table>    

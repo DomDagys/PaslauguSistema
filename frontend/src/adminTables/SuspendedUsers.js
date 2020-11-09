@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Table} from 'react-bootstrap';
+import '../styles/Admin.css'
 
 class SuspendedUsers extends Component {
     constructor(props) {
@@ -8,33 +9,46 @@ class SuspendedUsers extends Component {
     }
     render() { 
         return ( <div>
+            <h1 className="center">Suspenduoti vartotojai</h1>
 <Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Username</th>
+      <th>Vartotojo vardas</th>
+      <th>Priežastis</th>
+      <th>Paskundimu skaicius</th>
+      <th>Suspenduotas administratoriaus</th>
+      <th>Nuo</th>
+      <th>Iki</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td>Username1</td>
+      <td>Smurtas</td>
+      <td>120</td>
+      <td>Admin1</td>
+      <td>2020-10-20</td>
+      <td>2020-11-20</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
+      <td>Username2</td>
+      <td>Apgaudinėjimas</td>
+      <td>320</td>
+      <td>Admin2</td>
+      <td>2020-09-19</td>
+      <td>2020-12-20</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>Larry the Bird</td>
-      <td>@twitter</td>
-      <td>Larry the Bird</td>
+      <td>Username3</td>
+      <td>Šlamštas</td>
+      <td>70</td>
+      <td>Admin3</td>
+      <td>2020-06-20</td>
+      <td>2021-11-20</td>
     </tr>
   </tbody>
 </Table>
