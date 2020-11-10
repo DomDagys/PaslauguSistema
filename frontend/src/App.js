@@ -1,37 +1,38 @@
-import logo from './logo.svg';
-import { NavBar } from './components';
-import { HomePage, AdminPage } from './pages';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Register } from './components/Register';
-import { Login } from './components/Login';
-import {ForgotPassword} from './components/ForgotPassword'
-import { ViewProfile } from './components/ViewProfile';
-import { EditProfile } from './components/EditProfile';
+import logo from "./logo.svg";
+import { NavBar } from "./components";
+import { HomePage, AdminPage } from "./pages";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Register } from "./components/Register";
+import { Login } from "./components/Login";
+import { ForgotPassword } from "./components/ForgotPassword";
+import { ViewProfile } from "./components/ViewProfile";
+import { EditProfile } from "./components/EditProfile";
+import LandingPage from "./components/LandingPage";
 function App() {
   return (
     <Router>
       <div className="App">
         <NavBar></NavBar>
         <Route path="/" exact>
-          <HomePage/>
+          <LandingPage />
         </Route>
         <Route path="/register">
-          <Register/>
+          <Register />
         </Route>
         <Route path="/login">
-          <Login/>
+          <Login />
         </Route>
         <Route path="/forgotpassword">
-          <ForgotPassword/>
+          <ForgotPassword />
         </Route>
         <Route path="/viewprofile">
-          <ViewProfile/>
+          <ViewProfile />
         </Route>
         <Route path="/editprofile">
-          <EditProfile/>
+          <EditProfile />
         </Route>
         <Route path="/admin">
-          <AdminPage/>
+          <AdminPage />
         </Route>
       </div>
     </Router>
