@@ -1,20 +1,26 @@
 import logo from "./logo.svg";
 import { NavBar } from "./components";
 import { HomePage, AdminPage } from "./pages";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import { Register } from "./components/Register";
 import { Login } from "./components/Login";
 import { ForgotPassword } from "./components/ForgotPassword";
 import { ViewProfile } from "./components/ViewProfile";
 import { EditProfile } from "./components/EditProfile";
 import LandingPage from "./components/LandingPage";
+import ListingsPage from "./components/ListingsPage";
+import History from "./History";
+
 function App() {
   return (
-    <Router>
+    <Router history={History}>
       <div className="App">
         <NavBar></NavBar>
         <Route path="/" exact>
           <LandingPage />
+        </Route>
+        <Route path="/listings">
+          <ListingsPage></ListingsPage>
         </Route>
         <Route path="/register">
           <Register />

@@ -3,11 +3,14 @@ import VideIcon from "./Images/Video";
 import GraphicDesignIcon from "./Images/GraphicDesign";
 import MarketingIcon from "./Images/Marketing";
 import ProgrammingIcon from "./Images/Programming";
+import { Link } from "react-router-dom";
+import History from "../../History";
 
 const MobileCategory = ({ x }) => {
   return (
     <div className="col-12 col-md-6 p-3 d-block d-lg-none">
       <div
+        onClick={() => History.push("/listings")}
         className="p-4 category-card row no-gutters justify-content-between align-items-center"
         style={{
           height: "100%",
@@ -51,7 +54,7 @@ const Categories = ({ themeColor }) => {
   return (
     <div
       className="row no-gutters mx-auto mb-5 pb-5"
-      style={{ maxWidth: "1200px" }}
+      style={{ maxWidth: "1100px" }}
     >
       <div
         className="col-12 mb-5 text-center font-weight-bold"
@@ -67,6 +70,7 @@ const Categories = ({ themeColor }) => {
             className="col-3 p-lg-3 p-xl-4 d-none d-lg-block"
           >
             <div
+              onClick={() => History.push("/listings")}
               className="p-4 category-card"
               style={{
                 height: "100%",
@@ -84,7 +88,11 @@ const Categories = ({ themeColor }) => {
                 <x.icon height={"100%"} width={"auto"}></x.icon>
               </div>
               <div
-                style={{ height: "120px", fontWeight: "500", fontSize: "22px" }}
+                style={{
+                  height: "120px",
+                  fontWeight: "500",
+                  fontSize: "22px",
+                }}
                 className="d-flex align-items-center justify-content-center text-white text-center"
               >
                 <div>

@@ -15,6 +15,7 @@ code {
 .main {
   font-family: Montserrat;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .category-card {
@@ -38,4 +39,76 @@ code {
 
 .bg-theme-lighter {
   background: #566ee7;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.square-30 {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.my-dropdown-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.my-dropdown-item-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  transition: all 0.3s;
+  cursor: pointer;
+  color: white;
+  background: #4865ff;
+}
+.my-dropdown-item:hover {
+  background: #4865ff;
+  color: white;
+}
+
+.dropdown-item {
+  padding: 0 !important;
+}
+
+.pagination-item-selected {
+  background: #293a91;
+  border-radius: 15px;
+  height: 46px;
+  line-height: 46px;
+  color: white;
+}
+
+.pagination-item {
+  height: 46px;
+  color: white;
+  line-height: 46px;
+  background: #4865ff;
+  border-radius: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.pagination-item:hover {
+  background: #3249b9;
+}
+
+.listing-image-holder {
+  transition: 0.8s;
+}
+
+.listing-image-holder:hover {
+  transform: scale(1.2);
+}
+
+.listings-filters {
+  transition: all 0.3s;
 }

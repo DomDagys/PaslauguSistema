@@ -49,8 +49,8 @@ const MainPage = () => {
         <div className="row no-gutters mb-5 pt-3">
           <div className="col-6">
             <div
-              className="row no-gutters font-weight-bold d-none d-md-flex"
-              style={{ fontSize: "50px" }}
+              className="row no-gutters d-none d-md-flex"
+              style={{ fontSize: "50px", fontWeight: 800 }}
             >
               {antraste.map((x, i) => (
                 <div className="col-12" key={`antrastes-eilute-${i}`}>
