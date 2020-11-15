@@ -1,9 +1,11 @@
 import React from "react";
 import HeartIcon from "../Images/HeartIcon";
+import History from "../../History";
 
 const ListingCard = ({ listing }) => {
   return (
     <div
+      onClick={() => History.push("/listings/" + listing.id)}
       className="row no-gutters border h-100"
       style={{ borderRadius: "15px", overflow: "hidden", fontSize: "14px" }}
     >
@@ -33,10 +35,10 @@ const ListingCard = ({ listing }) => {
         <div className="row no-gutters flex-grow-1">
           <div className="col-12 p-2">
             {listing.title}
-            <small className="d-flex pt-2">
-              <div className="mr-2">Atlikimo laikas: </div>
+            <div className="pt-2">
+              <div className="text-muted">Atlikimo laikas: </div>
               <div>{listing.deliveryTime} dienos</div>
-            </small>
+            </div>
           </div>
         </div>
         <div className="row no-gutters flex-grow-0">

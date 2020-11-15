@@ -10,6 +10,7 @@ import { EditProfile } from "./components/EditProfile";
 import LandingPage from "./components/LandingPage";
 import ListingsPage from "./components/ListingsPage";
 import History from "./History";
+import ListingPage from "./components/ListingPage";
 
 function App() {
   return (
@@ -19,9 +20,10 @@ function App() {
         <Route path="/" exact>
           <LandingPage />
         </Route>
-        <Route path="/listings">
+        <Route exact path="/listings">
           <ListingsPage></ListingsPage>
         </Route>
+        <Route path="/listings/:id" component={ListingPage}></Route>
         <Route path="/register">
           <Register />
         </Route>

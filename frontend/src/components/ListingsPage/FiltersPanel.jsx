@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SelectButton from "../Buttons/Select";
 import { SizeMe } from "react-sizeme";
-import Listings from "./Listings";
+import Listings from "../../data/listings";
 import SearchIcon from "../Images/SearchIcon";
 
 const FiltersPanel = ({ setListings, listings }) => {
   const maxPrices = [5, 20, 50, 100, 200, 1000, 2000];
-  const categories = [
-    "Grafinis dizainas",
-    "Programavimas",
-    "Marketingas",
-    "Video ir animacijos",
-  ];
+  const categories = ["Grafinis dizainas", "Programavimas", "Marketingas", "Video ir animacijos"];
   const maxTimes = [1, 3, 7, 14, 30, 60];
   const sorts = ["Kaina", "Atlikimo laikas", "Populiarumas"];
 
@@ -30,8 +25,7 @@ const FiltersPanel = ({ setListings, listings }) => {
           x.category.toLowerCase() === categories[category].toLowerCase() ||
           category === "Visos") &&
         x.deliveryTime <= maxTimes[maxTime] &&
-        (!keywords ||
-          x.title.toLocaleLowerCase().includes(keywords.toLocaleLowerCase()))
+        (!keywords || x.title.toLocaleLowerCase().includes(keywords.toLocaleLowerCase()))
     );
     setListings(newListings);
   }, [maxPrice, category, maxTime, keywords]);
@@ -39,21 +33,13 @@ const FiltersPanel = ({ setListings, listings }) => {
   useEffect(() => {
     let newListings = [...listings];
     if (sortBy === 0) {
-      newListings.sort((a, b) =>
-        a.price < b.price ? -1 : a.price > b.price ? 1 : 0
-      );
+      newListings.sort((a, b) => (a.price < b.price ? -1 : a.price > b.price ? 1 : 0));
     } else if (sortBy === 1) {
       newListings.sort((a, b) =>
-        a.deliveryTime < b.deliveryTime
-          ? -1
-          : a.deliveryTime > b.deliveryTime
-          ? 1
-          : 0
+        a.deliveryTime < b.deliveryTime ? -1 : a.deliveryTime > b.deliveryTime ? 1 : 0
       );
     } else if (sortBy === 2) {
-      newListings.sort((a, b) =>
-        a.views < b.views ? -1 : a.views > b.views ? 1 : 0
-      );
+      newListings.sort((a, b) => (a.views < b.views ? -1 : a.views > b.views ? 1 : 0));
     }
 
     setListings(newListings);
@@ -75,12 +61,7 @@ const FiltersPanel = ({ setListings, listings }) => {
               <SelectButton
                 setSelected={setCategory}
                 selected={category}
-                items={[
-                  "Grafinis dizainas",
-                  "Programavimas",
-                  "Marketingas",
-                  "Video ir animacijos",
-                ]}
+                items={["Grafinis dizainas", "Programavimas", "Marketingas", "Video ir animacijos"]}
               >
                 {category === -1 ? "Pasirinkti" : categories[category]}
               </SelectButton>
@@ -100,9 +81,7 @@ const FiltersPanel = ({ setListings, listings }) => {
               <SelectButton
                 selected={maxTime}
                 setSelected={setMaxTime}
-                items={maxTimes.map(
-                  (x, i) => "< " + x + (i === 0 ? "diena" : "dienos")
-                )}
+                items={maxTimes.map((x, i) => "< " + x + (i === 0 ? "diena" : "dienos"))}
               >
                 {"< " +
                   maxTimes[maxTime] +
@@ -181,10 +160,7 @@ const FiltersPanel = ({ setListings, listings }) => {
                   }}
                 ></input>
               </div>
-              <div
-                className="col-auto"
-                onClick={() => setPanelExapanded(!panelExpanded)}
-              >
+              <div className="col-auto" onClick={() => setPanelExapanded(!panelExpanded)}>
                 FILTRUOTI
               </div>
             </div>
