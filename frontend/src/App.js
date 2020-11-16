@@ -11,6 +11,7 @@ import LandingPage from "./components/LandingPage";
 import ListingsPage from "./components/ListingsPage";
 import History from "./History";
 import ListingPage from "./components/ListingPage";
+import ChatUsers from './components/ChatSystem/ChatUsers';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route exact path="/listings">
           <ListingsPage></ListingsPage>
+        </Route>
+        <Route exact path="/pokalbiai">
+          <ChatUsers/>
         </Route>
         <Route path="/listings/:id" component={ListingPage}></Route>
         <Route path="/register">
@@ -41,7 +45,7 @@ function App() {
         </Route>
         <Route path="/admin">
           <AdminPage />
-        </Route>
+          </Route>
       </div>
     </Router>
   );

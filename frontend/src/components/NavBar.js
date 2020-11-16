@@ -16,6 +16,7 @@ class NavBar extends Component {
       <Nav.Link href="/">Pagrindinis</Nav.Link>
       <Nav.Link href="/viewprofile">Profilis</Nav.Link>
       <Nav.Link href="/admin">Valdyti turinį ir paskyras</Nav.Link>
+      <Nav.Link href="/pokalbiai">Pokalbiai</Nav.Link>
     </Nav>
     <Nav inline>
       <Nav.Link href="/login" className="mr-sm-2">Prisijungti</Nav.Link>
