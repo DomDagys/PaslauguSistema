@@ -12,6 +12,9 @@ import ListingsPage from "./components/ListingsPage";
 import History from "./History";
 import ListingPage from "./components/ListingPage";
 import ChatUsers from './components/ChatSystem/ChatUsers';
+import { PostList } from "./components/PostingPage/PostList";
+import { NewPost } from "./components/PostingPage/NewPost";
+import { EditPost } from "./components/PostingPage/EditPost";
 
 function App() {
   return (
@@ -46,6 +49,15 @@ function App() {
         <Route path="/admin">
           <AdminPage />
           </Route>
+		<Route path="/postlist">
+          <PostList />
+        </Route>  
+		<Route path="/newpost">
+          <NewPost />
+        </Route>
+		<Route path="/editpost">
+          <EditPost />
+        </Route>
       </div>
     </Router>
   );
