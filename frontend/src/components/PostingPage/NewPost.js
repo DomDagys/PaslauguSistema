@@ -13,14 +13,15 @@ class NewPost extends Component {
         return ( <div>
             <h1 className="center">Naujas skelbimas</h1>
 			<h3 className="center">--Pagrindinė dalis--</h3>
+			<Container>
 			<Form> 
     <Form.Group controlId="formBasicText">
         <Form.Label>Antraštė</Form.Label>
         <Form.Control type="text"  />
     </Form.Group>
-    <Form.Group controlId="formBasicText">
+    <Form.Group controlId="formBasicTextArea">
         <Form.Label>Aprašymas</Form.Label>
-        <Form.Control type="text"  />
+        <Form.Control as="textarea" rows={3}  />
     </Form.Group>
 	<Form.Group controlId="formBasicSelect">
         <Form.Label>Kategorija</Form.Label>
@@ -32,10 +33,13 @@ class NewPost extends Component {
 		<option>Muzika ir audio</option>
 		</Form.Control>
     </Form.Group>
+	<Form.Group>
+    <Form.File id="FormControlFile" label="Pasirinkite paveikslėlį" />
+  </Form.Group>
 	<h3 className="center">--Sutarties dalis--</h3>
-    <Form.Group controlId="formBasicText">
+    <Form.Group controlId="formBasicTextArea">
         <Form.Label>Sutarties aprašymas</Form.Label>
-        <Form.Control type="text"  />
+        <Form.Control as="textarea" rows={3} />
     </Form.Group>
 	<Form.Group controlId="formBasicText">
         <Form.Label>Suma</Form.Label>
@@ -57,6 +61,7 @@ class NewPost extends Component {
         Išsaugoti
     </Button>
     </Form>
+	</Container>
         </div> );
     }
 }
