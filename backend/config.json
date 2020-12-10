@@ -1,0 +1,19 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "database": "PaslauguSistema"
+    },
+    "secret": "BET KAS REALIAI",
+    "emailFrom": "jusu gmailas",
+    "smtpOptions": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "auth": {
+            "user": "jusu gmailas",
+            "pass": "jusu gmailo passwordas"
+        }
+    }
+}

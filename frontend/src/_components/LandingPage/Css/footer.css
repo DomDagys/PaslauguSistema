@@ -1,0 +1,47 @@
+.footer {
+  height: 400px;
+}
+
+.footer-btn {
+  padding: 16px 40px;
+  border-radius: 35px;
+  background: #28388c;
+  color: white;
+  user-select: none;
+  cursor: pointer;
+  font-family: montserrat;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.footer-btn:hover {
+  background: #1c2864;
+}
+
+.right-wave {
+  bottom: 0;
+}
+
+.left-wave {
+  bottom: -110px;
+}
+
+@media screen and (max-width: 768px) {
+  .right-wave {
+    bottom: -139px;
+  }
+
+  .left-wave {
+    bottom: 30px;
+  }
+
+  .sm-hide {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .md-hide {
+    display: none !important;
+  }
+}

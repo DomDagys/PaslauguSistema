@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AdminNavBar } from '../components'
 import queryString from 'query-string';
 import { UserTable, SuspendedUsers, SuspendedPosts, 
-    ReportedPosts, ReportedUsers, UserPostsTable } from '../adminTables'
+    ReportedPosts, ReportedUsers, UserPostsTable } from '../components/adminTables'
 
 class AdminPage extends Component {
     constructor(props) {
