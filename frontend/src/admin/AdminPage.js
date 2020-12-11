@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { AdminNavBar } from '../components'
+import { AdminNavBar } from './components';
 import queryString from 'query-string';
 import { UserTable, SuspendedUsers, SuspendedPosts, 
-    ReportedPosts, ReportedUsers, UserPostsTable } from '../components/adminTables'
+    ReportedPosts, ReportedUsers, UserPostsTable } from './components';
 
 class AdminPage extends Component {
     constructor(props) {

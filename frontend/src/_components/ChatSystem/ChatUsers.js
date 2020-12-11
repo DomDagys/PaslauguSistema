@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./ChatUsers.css";
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button'
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import EmailForm from "./EmailForm";
 import MessageForm from "./MessageForm";
 

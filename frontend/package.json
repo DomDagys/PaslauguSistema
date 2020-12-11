@@ -11,15 +11,19 @@
         "start": "webpack-dev-server --open"
     },
     "dependencies": {
+        "bootstrap": "^4.5.3",
         "formik": "^2.1.4",
         "history": "^4.10.1",
         "prop-types": "^15.7.2",
         "query-string": "^6.11.0",
         "react": "^16.8.6",
+        "react-bootstrap": "^1.4.0",
+        "react-datetime-bootstrap": "^1.4.7",
         "react-dom": "^16.8.6",
         "react-router-dom": "^5.0.0",
         "react-sizeme": "^2.6.12",
         "rxjs": "^6.6.3",
+        "uniqid": "^5.2.0",
         "yup": "^0.28.1"
     },
     "devDependencies": {
