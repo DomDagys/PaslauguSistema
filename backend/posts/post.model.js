@@ -7,8 +7,8 @@ function model(sequelize) {
         title: {type: DataTypes.STRING, allowNull: false},
         description: {type: DataTypes.TEXT, allowNull: false},
         isActive: {type: DataTypes.BOOLEAN, allowNull: false },
-        category: {type: DataTypes.ENUM(['Graphic design', 'Writing and translation', 'Video and animation', 'Music and audio', 
-        'IT and programming', 'Business', 'Lifestyle']), allowNull: false},
+        category: {type: DataTypes.ENUM(['Grafinis dizainas', 'Rašymas ir vertimas', 'Video ir animacija', 
+        'Muzika ir audio', 'Programavimas', 'Verslas', 'Gyvenimo būdas']), allowNull: false},
         views: {type: DataTypes.INTEGER, allowNull: false}
     };
 
