@@ -15,6 +15,9 @@ async function initialize() {
     // connect to db
     const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
 
+    //for raw queries
+    db.sequelize = sequelize;
+
     // init models and add them to the exported db object
     db.Account = require('../accounts/account.model')(sequelize);
     db.RefreshToken = require('../accounts/refresh-token.model')(sequelize);
@@ -24,17 +27,17 @@ async function initialize() {
 
     // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
-    db.Account.belongsToMany(db.Post, { through: 'user_Posts', timestamps: false });
-    db.Account.belongsToMany(db.Report, { through: 'user_Reports', timestamps: false });
-    db.Account.belongsToMany(db.Suspension, { through: 'user_Suspensions', timestamps: false });
+    db.Account.hasMany(db.Post);
+    db.Account.hasMany(db.Report);
+    db.Account.hasMany(db.Suspension);
     db.RefreshToken.belongsTo(db.Account);
-    db.Post.belongsToMany(db.Report, { through: 'post_Reports', timestamps: false });
-    db.Post.belongsToMany(db.Suspension, { through: 'post_Suspensions', timestamps: false });
-    db.Post.belongsTo(db.Account, { through: 'user_Posts', timestamps: false });
-    db.Report.belongsTo(db.Account, { through: 'user_Reports', timestamps: false });
-    db.Report.belongsTo(db.Post, { through: 'post_Reports', timestamps: false });
-    db.Suspension.belongsTo(db.Account, { through: 'user_Suspensions', timestamps: false });
-    db.Suspension.belongsTo(db.Post, { through: 'post_Suspensions', timestamps: false });
+    db.Post.hasMany(db.Report);
+    db.Post.hasMany(db.Suspension);
+    db.Post.belongsTo(db.Account);
+    db.Report.belongsTo(db.Account);
+    db.Report.belongsTo(db.Post);
+    db.Suspension.belongsTo(db.Account);
+    db.Suspension.belongsTo(db.Post);
     
     // sync all models with database
     await sequelize.sync();

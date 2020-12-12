@@ -9,8 +9,8 @@ function model(sequelize) {
         count: { type: DataTypes.INTEGER, allowNull: false},
         lastReported: { type: DataTypes.DATE, allowNull: false},
         cleared: { type: DataTypes.BOOLEAN, allowNull: false},
-        clearDate: { type: DataTypes.DATE, allowNull: false },
-        clearedBy: { type: DataTypes.STRING, allowNull: false}
+        clearDate: { type: DataTypes.DATE, allowNull: true },
+        clearedBy: { type: DataTypes.STRING, allowNull: true}
     };
 
     const options = {

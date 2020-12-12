@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
+import { reportService } from '../../_services/report.service';
+import ReportedUserRow from './ReportedUserRow';
 import '../../styles/Admin.css';
 
 class ReportedUsers extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+          userReports: null
+         }
     }
+
+    componentDidMount(){
+      reportService.getAllUserReports().then(data => this.setState({userReports: data}));
+    }
+
     render() { 
+      let count = 1;
+      console.log(this.state);
         return ( <div>
             <h1 className="center">Paskųsti vartotojai</h1>
             <Table striped bordered hover>
@@ -21,27 +32,8 @@ class ReportedUsers extends Component {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>Username1</td>
-      <td>Apgaudinėjimas</td>
-      <td>50</td>
-      <td>2020-10-12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Username2</td>
-      <td>Smurtas</td>
-      <td>40</td>
-      <td>2020-10-06</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Username3</td>
-      <td>Nepageidaujamas turinys</td>
-      <td>220</td>
-      <td>2020-10-12</td>
-    </tr>
+    {this.state.userReports && 
+    this.state.userReports.map(report => <ReportedUserRow key={count} number={count++} {...report}/>)}
   </tbody>
 </Table>    
         </div> );
