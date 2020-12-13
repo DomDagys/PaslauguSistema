@@ -17,16 +17,10 @@ const MainPage = () => {
         <div className="row no-gutters">
           <div className="col-12 col-md-11 col-lg-10 mx-auto">
             <div className="d-flex justify-content-end">
-              <div
-                className="d-block d-xl-none"
-                style={{ marginRight: "-100px", width: "500px" }}
-              >
+              <div className="d-block d-xl-none" style={{ marginRight: "-100px", width: "500px" }}>
                 <RightTopCorner></RightTopCorner>
               </div>
-              <div
-                className="d-none d-xl-block"
-                style={{ marginRight: "-180px", width: "650px" }}
-              >
+              <div className="d-none d-xl-block" style={{ marginRight: "-180px", width: "650px" }}>
                 <RightTopCorner></RightTopCorner>
               </div>
             </div>
@@ -40,8 +34,12 @@ const MainPage = () => {
           </div>
           <div className="col-auto">
             <div className="row no-gutters text-white">
-              <a className="col-auto mr-5" href="/account/register">Tapti freelanceriu</a>
-              <a className="col-auto mr-5" href="/account/login">Prisijungti</a>
+              <a className="col-auto mr-5" href="/account/register">
+                Tapti freelanceriu
+              </a>
+              <a className="col-auto" href="/account/login">
+                Prisijungti
+              </a>
             </div>
           </div>
         </div>
@@ -49,7 +47,7 @@ const MainPage = () => {
           <div className="col-6">
             <div
               className="row no-gutters d-none d-md-flex"
-              style={{ fontSize: "50px", fontWeight: 800 }}
+              style={{ fontSize: "50px", fontWeight: 800, lineHeight: "126%" }}
             >
               {antraste.map((x, i) => (
                 <div className="col-12" key={`antrastes-eilute-${i}`}>
