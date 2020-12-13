@@ -5,12 +5,14 @@ const Role = require('_helpers/role');
 const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize')
 const reportService = require('./report.service');
-const { route, report } = require('../accounts/accounts.controller');
 
-router.post('/user'/*, authorize(Role.Admin)*/, reportUserSchema, reportUser);
-router.post('/post'/*, authorize(Role.Admin)*/, reportPostSchema, reportPost);
-router.get('/user'/*, authorize(Role.Admin)*/, getUserReports);
-router.get('/post'/*, authorize(Role.Admin)*/, getPostReports);
+
+router.post('/user', authorize(), reportUserSchema, reportUser);
+router.post('/post', authorize(), reportPostSchema, reportPost);
+router.get('/user', authorize(Role.Admin), getUserReports);
+router.get('/post', authorize(Role.Admin), getPostReports);
+router.put('/clear', authorize(Role.Admin), clearReportSchema, clearReport);
+router.get('/userPosts', getUserPosts);
 
 module.exports = router;
 
@@ -50,4 +52,29 @@ function getUserReports(req, res, next) {
 function getPostReports(req, res, next) {
     reportService.getPostReports().then(reports => res.json(reports))
         .catch(next);
+}
+
+function  clearReportSchema(req, res, next) {
+    const schema = Joi.object({
+        id: Joi.number().required(),
+        adminName: Joi.string().required()
+    });
+    validateRequest(req, next, schema);
+}
+
+function clearReport(req, res, next){
+    let { id, adminName } = req.body;
+    reportService.clearReport(id, adminName)
+        .then(() => res.json({ message: "Paskundimas išvalytas." }))
+        .catch(next);
+}
+
+function getUserPosts(req, res, next) {
+    try {
+        reportService.getUserPosts(req.query.username)
+            .then(posts => res.json(posts))
+            .catch(next);
+    } catch (err) {
+        res.status(404).json({ message: "Nepavyko gauti vartotojo skelbimų."});
+    }
 }

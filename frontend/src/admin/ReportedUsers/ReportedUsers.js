@@ -29,6 +29,7 @@ class ReportedUsers extends Component {
       <th>Kategorija</th>
       <th>Paskundimų skaičius</th>
       <th>Paskutinį kartą paskųstas</th>
+      <th>Veiksmai</th>
     </tr>
   </thead>
   <tbody>

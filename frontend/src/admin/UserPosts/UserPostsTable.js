@@ -1,23 +1,44 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
+import { reportService } from '../../_services';
+import UserPostRow from './UserPostRow';
 import '../../styles/Admin.css'
 
 class UserPostsTable extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+          searchedUser: "",
+          userPosts: null
+         }
+
+         this.handleChange = this.handleChange.bind(this);
+         this.getUserPosts = this.getUserPosts.bind(this);
     }
+
+    handleChange(event) {
+      let { name, value } = event.target
+      this.setState({ [name]: value });
+    }
+
+    getUserPosts() {
+      reportService.getUserPosts(this.state.searchedUser)
+        .then(posts => this.setState({userPosts: posts}));
+    }
+
     render() { 
+      let count = 1;
         return ( <div>
             <h1 className="center">Vartotojo skelbimų paieška</h1>
             <div className="searchBar">
-                <input type="text" className="searchField" value="Vartotojo vardas"></input>
-                <Button variant="primary">Ieškoti</Button>
+                <input type="text" name="searchedUser" className="searchField" placeholder="Vartotojas" onChange={this.handleChange}></input>
+                <Button variant="primary" onClick={this.getUserPosts}>Ieškoti</Button>
             </div>
 <Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
+      <th>Vartotojas</th>
       <th>Antraštė</th>
       <th>Aprašymas</th>
       <th>Kategorija</th>
@@ -25,27 +46,8 @@ class UserPostsTable extends Component {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>Video montavimas</td>
-      <td>Montuoju nusiųstus video įrašus.</td>
-      <td>Video ir animacija</td>
-      <td>200</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Animuoju video</td>
-      <td>Kūriu animacinius video pagal jūsų prašymą.</td>
-      <td>Video ir animacija</td>
-      <td>220</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Video įrašų montavimo kursai</td>
-      <td>Dėstau kaip montuoti video įrašus</td>
-      <td>Video ir animacija</td>
-      <td>160</td>
-    </tr>
+    {this.state.userPosts &&
+    this.state.userPosts.posts.map(post => <UserPostRow key={count} number={count++} {...post} username={this.state.userPosts.username}/>)}
   </tbody>
 </Table>    
         </div> );

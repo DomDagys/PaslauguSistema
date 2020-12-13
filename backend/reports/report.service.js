@@ -1,13 +1,15 @@
 const db = require('_helpers/db');
 const tableNames = require('../_helpers/dbTables');
 const { QueryTypes } = require('sequelize');
-const { func } = require('joi');
+const { Op } = require("sequelize");
 
 module.exports = {
     reportUser,
     reportPost,
     getUserReports,
-    getPostReports
+    getPostReports,
+    clearReport,
+    getUserPosts
 }
 
 async function reportUser(body) {
@@ -30,6 +32,7 @@ async function reportUser(body) {
     }
     else {
         userReport.count += 1;
+        userReport.cleared = 0;
         userReport.lastReported = curDate;
         await userReport.save();
     }
@@ -55,13 +58,16 @@ async function reportPost(body){
     }
     else {
         postReport.count += 1;
+        postReport.cleared = 0;
         postReport.lastReported = curDate;
         await postReport.save();
     }
 }
 
 async function getUserReports() {
-        const reports = await db.sequelize.query("SELECT * FROM `"+ tableNames.Accounts +"` INNER JOIN `"+ tableNames.Reports +
+        const reports = await db.sequelize.query("SELECT "+ tableNames.Reports +".accountId, "+ tableNames.Reports +".id, "+ tableNames.Accounts +".firstName, "+ 
+        tableNames.Accounts +".lastName, "+ tableNames.Reports +".category, "+ tableNames.Reports +".count, "+ 
+        tableNames.Reports +".lastReported FROM `"+ tableNames.Accounts +"` INNER JOIN `"+ tableNames.Reports +
         "` ON "+ tableNames.Accounts +".id = "+ tableNames.Reports +".accountId WHERE "+ tableNames.Reports +".cleared = 0", { type: QueryTypes.SELECT});
         if (!reports)
             return null;
@@ -69,7 +75,8 @@ async function getUserReports() {
 }
 
 async function getPostReports() {
-    const reports = await db.sequelize.query("SELECT title, "+ tableNames.Accounts +".firstName, "+ tableNames.Accounts +".lastName, "+ tableNames.Reports +".category, "+ tableNames.Reports +".count, "+ 
+    const reports = await db.sequelize.query("SELECT "+ tableNames.Reports +".postId, "+ tableNames.Reports +".id, title, "+ tableNames.Accounts +".firstName, "+ 
+    tableNames.Accounts +".lastName, "+ tableNames.Reports +".category, "+ tableNames.Reports +".count, "+ 
     tableNames.Reports +".lastReported FROM `"+ tableNames.Posts +"` INNER JOIN `"+ tableNames.Reports +
         "` ON "+ tableNames.Posts +".id = "+ tableNames.Reports +".postId " +
         "INNER JOIN `"+ tableNames.Accounts +"` ON "+ tableNames.Posts +".accountId = "+ tableNames.Accounts +".id " +
@@ -77,6 +84,19 @@ async function getPostReports() {
         if (!reports)
             return null;
         return reports;
+}
+
+async function clearReport(id, adminName) {
+    const report = await db.Report.findOne({ where: {id: id} });
+    if (!report)
+        return null;
+    
+    let curDate = Date.now();
+    report.count = 0;
+    report.cleared = 1;
+    report.clearDate = curDate;
+    report.clearedBy = adminName;
+    await report.save();
 }
 
 async function findUserReport(id, category) {
@@ -87,4 +107,23 @@ async function findUserReport(id, category) {
 async function findPostReport(id, category){
     const postReport = await db.Report.findOne({ where: { postId: id, category: category } });
     return postReport;
+}
+
+async function getUserPosts(username) {
+        let values = username.split(' ');
+    if (values.length == 2){
+        const count = await db.Account.count({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
+        if (count == 0)
+            return null;
+        const user =await db.Account.findOne({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
+        const posts = await db.Post.findAll({where: {accountId: user.id}});
+        return {posts: posts, username: user.firstName + " " + user.lastName};   
+    } else {
+        const count = await db.Account.count({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
+        if (count == 0)
+            return null;
+        const user = await db.Account.findOne({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
+        const posts = await db.Post.findAll({where: {accountId: user.id}});
+        return {posts: posts, username: user.firstName + " " + user.lastName};   
+    }
 }

@@ -3,5 +3,6 @@ module.exports = {
     Inappropriate: "Netinkamas turinys",
     Violence: "Smurtas",
     Spam: "Šlamštas",
-    PromotingHatred: "Neapykantos kurstymas"
+    PromotingHatred: "Neapykantos kurstymas",
+    UserSuspension: "Suspenduota dėl vartotojo."
 }

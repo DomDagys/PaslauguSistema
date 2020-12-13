@@ -6,6 +6,7 @@ const { Op } = require('sequelize');
 const sendEmail = require('_helpers/send-email');
 const db = require('_helpers/db');
 const Role = require('_helpers/role');
+const suspensionService = require('../suspensions/suspension.service');
 
 module.exports = {
     authenticate,
@@ -28,6 +29,11 @@ async function authenticate({ email, password, ipAddress }) {
 
     if (!account || !account.isVerified || !(await bcrypt.compare(password, account.passwordHash))) {
         throw 'El.Paštas arba slaptažodis neteisingi';
+    }
+
+    const suspended = await suspensionService.isUserSuspended(account.id);
+    if (suspended){
+        throw 'Vartotojas suspenduotas.';
     }
 
     // authentication successful so generate jwt and refresh tokens
