@@ -17,9 +17,9 @@ const MainPage = () => {
           <div className="col-auto" style={{ width: "150px" }}>
             <Logo></Logo>
           </div>
-          <div className="col-auto" style={{ fontSize: "12px" }}>
+          <a className="col-auto" href="/account/login">
             Prisijungti
-          </div>
+          </a>
         </div>
       </div>
       <div className="col-12 bg-theme px-3 pt-3 pb-5">
