@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { dateConverter } from '../../_helpers';
 
 class UserRow extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class UserRow extends Component {
             <td>{this.props.firstName}</td>
             <td>{this.props.lastName}</td>
             <td>{this.props.email}</td>
-            <td>{this.props.created}</td>
+            <td>{dateConverter.convertDate(new Date(this.props.created))}</td>
         </tr> );
     }
 }

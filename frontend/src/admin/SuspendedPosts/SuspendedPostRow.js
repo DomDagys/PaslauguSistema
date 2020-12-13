@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { suspensionService } from '../../_services';
 import { Button } from 'react-bootstrap';
+import { dateConverter } from '../../_helpers';
 
 class SuspendedPostRow extends Component {
     constructor(props) {
@@ -19,11 +20,14 @@ class SuspendedPostRow extends Component {
     }
 
     removePost(){
-        suspensionService.removePost()
+        const confirmed = confirm("Ar tikrai norite ištrinti skelbimą?");
+        if (!confirmed)
+            return;
+        suspensionService.removePost(this.props.postId)
             .then(() => window.location.reload(true));
     }
 
-    render() { 
+    render() {
         return ( <tr>
             <td>{this.props.number}</td>
             <td>{this.props.title}</td>
@@ -31,7 +35,7 @@ class SuspendedPostRow extends Component {
             <td>{this.props.reason}</td>
             <td>{this.props.reportCount}</td>
             <td>{this.props.suspendedBy}</td>
-            <td>{this.props.from}</td>
+            <td>{dateConverter.convertDate(new Date(this.props.from))}</td>
             <td><Button variant="success" onClick={this.clearSuspension}>Valyti</Button>
             <Button variant="danger" onClick={this.removePost}>Ištrinti</Button></td>
         </tr> );

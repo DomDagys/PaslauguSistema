@@ -3,6 +3,7 @@ const tableNames = require('../_helpers/dbTables');
 const { QueryTypes } = require('sequelize');
 const { Op } = require("sequelize");
 const reportEnum = require('../_helpers/reportEnums');
+const dateConverter = require('../_helpers/dateConverter');
 
 module.exports = {
     suspendPost,
@@ -23,6 +24,7 @@ async function suspendPost(postId, adminName) {
         return;
 
     let curDate = Date.now();
+    let clearDate = dateConverter.convertDate(new Date(curDate));
     let category = "";
     let count = 0;
     const reports = await db.Report.findAll({where:{postId:postId, cleared: 0}});
@@ -37,7 +39,7 @@ async function suspendPost(postId, adminName) {
     });
     }
     await db.sequelize.query("UPDATE "+ tableNames.Reports +" SET count = '0', cleared = '1', clearDate = '" +
-    curDate + "', clearedBy = '"+ adminName +"' WHERE postId = '"+ postId +"'", {type: QueryTypes.UPDATE});
+    clearDate + "', clearedBy = '"+ adminName +"' WHERE postId = '"+ postId +"'", {type: QueryTypes.UPDATE});
 
     const suspension = new db.Suspension({
         reason: category,
@@ -54,7 +56,7 @@ async function suspendPost(postId, adminName) {
 }
 
 async function getSuspendedPosts() {
-    const suspensions = await db.sequelize.query("SELECT "+ tableNames.Suspensions +".id, "+ tableNames.Posts +".title, "+ 
+    const suspensions = await db.sequelize.query("SELECT "+ tableNames.Suspensions +".id, "+ tableNames.Posts +".id AS 'postId', "+ tableNames.Posts +".title, "+ 
     tableNames.Accounts +".firstName, "+ tableNames.Accounts +".lastName, reason, reportCount, suspendedBy, "+ 
     tableNames.Suspensions +".from, "+ tableNames.Suspensions +
     ".to FROM `"+ tableNames.Suspensions +"` INNER JOIN "+ tableNames.Posts +" ON "+ tableNames.Posts +".id = postId " +
@@ -88,6 +90,7 @@ async function suspendUser(accountId, adminName) {
     let curDate = Date.now();
     let category = "";
     let count = 0;
+    let clearDate = dateConverter.convertDate(new Date(curDate));
     const reports = await db.Report.findAll({where:{accountId:accountId, cleared: 0}});
     const results = reports.map(report => report.dataValues);
     results.forEach(report => {
@@ -95,7 +98,7 @@ async function suspendUser(accountId, adminName) {
         count+=report.count;
     });
     await db.sequelize.query("UPDATE "+ tableNames.Reports +" SET count = '0', cleared = '1', clearDate = '" +
-    curDate + "', clearedBy = '"+ adminName +"' WHERE accountId = '"+ accountId +"'", {type: QueryTypes.UPDATE});
+    clearDate + "', clearedBy = '"+ adminName +"' WHERE accountId = '"+ accountId +"'", {type: QueryTypes.UPDATE});
 
     const suspension = new db.Suspension({
         reason: category,
@@ -134,7 +137,7 @@ async function removeUserSuspension(suspensionId, accountId){
     const results = await db.Post.findAll({where: {accountId: accountId}})
     const posts = results.map(post => post.dataValues.id);
 
-    await db.Suspension.update({isValid: 0, to: curDate}, {where: {postId:{[Op.or]: posts}, isValid: 1, reason: reportEnum.UserSuspension}});
+    await db.Suspension.update({isValid: 0, to: curDate}, {where: {postId:{[Op.or]: posts}, isValid: 1, from: suspension.from}});
 }
 
 async function isUserSuspended(accountId) {

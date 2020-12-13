@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { suspensionService } from '../../_services';
 import { Button } from 'react-bootstrap';
+import { dateConverter } from '../../_helpers';
 
 class SuspendedUserRow extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class SuspendedUserRow extends Component {
             <td>{this.props.reason}</td>
             <td>{this.props.reportCount}</td>
             <td>{this.props.suspendedBy}</td>
-            <td>{this.props.from}</td>
+            <td>{dateConverter.convertDate(new Date(this.props.from))}</td>
             <td><Button variant="success" onClick={this.removeSuspension}>Panaikinti</Button></td>
         </tr> );
     }
