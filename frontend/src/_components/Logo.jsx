@@ -1,8 +1,16 @@
 import React from "react";
+import { history } from "../_helpers";
 
 function Icon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" fill="none" viewBox="0 0 348 92">
+    <svg
+      style={{ cursor: "pointer" }}
+      onClick={() => history.push("/")}
+      xmlns="http://www.w3.org/2000/svg"
+      width="100%"
+      fill="none"
+      viewBox="0 0 348 92"
+    >
       <circle cx="45.845" cy="45.925" r="45.141" fill="#E6EDFF"></circle>
       <path
         fill="#293A91"

@@ -16,11 +16,14 @@ function model(sequelize) {
         "Programavimas",
         "Verslas",
         "Gyvenimo būdas",
+        "Marketingas",
       ]),
       allowNull: false,
     },
+    images: { type: DataTypes.TEXT, allowNull: false },
     views: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.FLOAT, allowNull: false },
+    revisions: { type: DataTypes.INTEGER, allowNull: false },
     deliveryTime: { type: DataTypes.INTEGER, allowNull: false },
   };
 

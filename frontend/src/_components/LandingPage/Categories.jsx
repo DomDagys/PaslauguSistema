@@ -1,16 +1,17 @@
 import React from "react";
-import VideIcon from "./Images/Video";
-import GraphicDesignIcon from "./Images/GraphicDesign";
-import MarketingIcon from "./Images/Marketing";
-import ProgrammingIcon from "./Images/Programming";
-import { Link } from "react-router-dom";
-import {history} from "../../_helpers";
+import VideIcon from "../Images/Video";
+import GraphicDesignIcon from "../Images/GraphicDesign";
+import MarketingIcon from "../Images/Marketing";
+import ProgrammingIcon from "../Images/Programming";
+import { history } from "../../_helpers";
 
 const MobileCategory = ({ x }) => {
   return (
     <div className="col-12 col-md-6 p-3 d-block d-lg-none">
       <div
-        onClick={() => History.push("/listings")}
+        onClick={() => {
+          history.push("/listings/category/" + encodeURI(x.dbaseName));
+        }}
         className="p-4 category-card row no-gutters justify-content-between align-items-center"
         style={{
           height: "100%",
@@ -46,31 +47,22 @@ const MobileCategory = ({ x }) => {
 
 const Categories = ({ themeColor }) => {
   let categories = [
-    { name: "Grafinis Dizainas", icon: GraphicDesignIcon },
-    { name: "Programų Kūrimas", icon: ProgrammingIcon },
-    { name: "Skaitmeninis Marketingas", icon: MarketingIcon },
-    { name: "Video, Animacijos", icon: VideIcon },
+    { name: "Grafinis Dizainas", icon: GraphicDesignIcon, dbaseName: "Grafinis dizainas" },
+    { name: "Programų Kūrimas", icon: ProgrammingIcon, dbaseName: "Programavimas" },
+    { name: "Skaitmeninis Marketingas", icon: MarketingIcon, dbaseName: "Marketingas" },
+    { name: "Video, Animacijos", icon: VideIcon, dbaseName: "Video ir animacija" },
   ];
   return (
-    <div
-      className="row no-gutters mx-auto mb-5 pb-5"
-      style={{ maxWidth: "1100px" }}
-    >
-      <div
-        className="col-12 mb-5 text-center font-weight-bold"
-        style={{ fontSize: "36px" }}
-      >
+    <div className="row no-gutters mx-auto mb-5 pb-5" style={{ maxWidth: "1100px" }}>
+      <div className="col-12 mb-5 text-center font-weight-bold" style={{ fontSize: "36px" }}>
         Kategorijos
       </div>
       {categories.map((x, i) => (
-        <React.Fragment>
+        <React.Fragment key={`category-m-${i}`}>
           <MobileCategory x={x}></MobileCategory>
-          <div
-            key={`category-${i}`}
-            className="col-3 p-lg-3 p-xl-4 d-none d-lg-block"
-          >
+          <div className="col-3 p-lg-3 p-xl-4 d-none d-lg-block">
             <div
-              onClick={() => History.push("/listings")}
+              onClick={() => history.push("/listings/category/" + encodeURI(x.dbaseName))}
               className="p-4 category-card"
               style={{
                 height: "100%",

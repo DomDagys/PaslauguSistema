@@ -1,6 +1,6 @@
 import React from "react";
 import HeartIcon from "../Images/HeartIcon";
-import {history} from "../../_helpers";
+import { history } from "../../_helpers";
 
 const ListingCard = ({ listing }) => {
   return (
@@ -13,7 +13,7 @@ const ListingCard = ({ listing }) => {
         className="col-6"
         style={{
           paddingTop: "40%",
-          backgroundImage: `url(${listing.image})`,
+          backgroundImage: `url(${listing.images.split("|")[0]})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -22,15 +22,12 @@ const ListingCard = ({ listing }) => {
       <div className="col-6 d-flex flex-column">
         <div className="row no-gutters px-2 pt-3 align-items-center flex-grow-0">
           <div
-            className="col-auto mr-2 square-30 rounded-circle"
-            style={{
-              backgroundImage: `url(${listing.author.image})`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
-          <div className="col-auto">{listing.author.name}</div>
+            className="col-auto mr-2 square-30 rounded-circle d-flex flex-center text-theme"
+            style={{ background: "#E6EDFF" }}
+          >
+            <div>{listing.account.firstName.charAt(0)}</div>
+          </div>
+          <div className="col-auto">{listing.account.firstName}</div>
         </div>
         <div className="row no-gutters flex-grow-1">
           <div className="col-12 p-2">
@@ -42,7 +39,7 @@ const ListingCard = ({ listing }) => {
           </div>
         </div>
         <div className="row no-gutters flex-grow-0">
-          <div className="col-12 p-2" style={{ background: "#E0E0E0" }}>
+          <div className="col-12 p-2" style={{ background: "#E5EDFF" }}>
             <div className="row no-gutters justify-content-between align-items-center">
               <div className="col-auto">
                 <div className="row no-gutters align-items-center">

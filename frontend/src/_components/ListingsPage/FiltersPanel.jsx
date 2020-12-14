@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SelectButton from "../Buttons/Select";
 import { SizeMe } from "react-sizeme";
-import Listings from "../../data/listings";
 import SearchIcon from "../Images/SearchIcon";
 
-const FiltersPanel = ({ setListings, listings }) => {
+const FiltersPanel = ({ setListings, listings, initialListings }) => {
   const maxPrices = [5, 20, 50, 100, 200, 1000, 2000];
   const categories = ["Grafinis dizainas", "Programavimas", "Marketingas", "Video ir animacijos"];
   const maxTimes = [1, 3, 7, 14, 30, 60];
@@ -18,7 +17,7 @@ const FiltersPanel = ({ setListings, listings }) => {
   const [panelExpanded, setPanelExapanded] = useState(false);
 
   useEffect(() => {
-    let newListings = Listings.filter(
+    let newListings = initialListings.filter(
       (x) =>
         x.price <= maxPrices[maxPrice] &&
         (category === -1 ||
@@ -56,7 +55,7 @@ const FiltersPanel = ({ setListings, listings }) => {
               maxHeight: size.width > 558 || panelExpanded ? `500px` : "0px",
             }}
           >
-            <div className="col-12 col-sm-6 col-md-auto pr-sm-3 mb-2">
+            {/* <div className="col-12 col-sm-6 col-md-auto pr-sm-3 mb-2">
               <div className="mb-2">Kategorija</div>
               <SelectButton
                 setSelected={setCategory}
@@ -65,7 +64,7 @@ const FiltersPanel = ({ setListings, listings }) => {
               >
                 {category === -1 ? "Pasirinkti" : categories[category]}
               </SelectButton>
-            </div>
+            </div> */}
             <div className="col-12 col-sm-6 col-md-auto pr-md-3 mb-2">
               <div className="mb-2">Kaina</div>
               <SelectButton
@@ -102,7 +101,7 @@ const FiltersPanel = ({ setListings, listings }) => {
                 {sorts[sortBy]}
               </SelectButton>
             </div>
-            <div className="col-sm-auto col-12 d-none d-sm-block">
+            <div className="col d-none d-sm-block">
               <div className="mb-2">Raktažodžiai</div>
               <div className="row no-gutters flex-nowrap">
                 <div className="col">
@@ -116,13 +115,13 @@ const FiltersPanel = ({ setListings, listings }) => {
                     className="w-100 px-3"
                     style={{
                       border: "4px solid #4865ff",
-                      borderRadius: "18px 0 0 18px",
+                      borderRadius: "13px",
                       height: "46px",
                       outline: "none",
                     }}
                   ></input>
                 </div>
-                <div
+                {/* <div
                   className="col-auto bg-theme px-5 text-white d-flex align-items-center"
                   style={{
                     borderRadius: "0 18px 18px 0",
@@ -131,7 +130,7 @@ const FiltersPanel = ({ setListings, listings }) => {
                   }}
                 >
                   Ieškoti
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

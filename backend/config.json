@@ -7,13 +7,13 @@
         "database": "PaslauguSistema"
     },
     "secret": "BET KAS REALIAI",
-    "emailFrom": "jusu gmailas",
+    "emailFrom": "sojusesu@gmail.com",
     "smtpOptions": {
         "host": "smtp.gmail.com",
         "port": 587,
         "auth": {
-            "user": "jusu gmailas",
-            "pass": "jusu gmailo passwordas"
+            "user": "sojusesu@gmail.com",
+            "pass": "siandienyra22"
         }
     }
 }

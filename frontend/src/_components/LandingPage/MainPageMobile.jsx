@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../Logo";
-import CornerMobile from "./Images/CornerMobile";
-import Menu from "./Images/Menu";
+import CornerMobile from "../Images/CornerMobile";
+import Menu from "../Images/Menu";
+import { history } from "../../_helpers";
 
 const MainPage = () => {
   let antraste = ["Raskite", "Freelancerius", "Lietuvoje"];
   let themeColor = "#4865FF";
   let populiariosPaieskos = ["React js", "Web developer", "Data analyst"];
+  const [paieska, setPaieska] = useState("");
+
   return (
     <div className="row no-gutters mb-5">
       <div className="col-12">
@@ -56,12 +59,20 @@ const MainPage = () => {
         >
           <div className="col-12 mx-2 my-1">
             <input
+              onKeyDown={(e) => {
+                if (e.keyCode === 13) {
+                  history.push("/listings/search/" + paieska);
+                }
+              }}
+              value={paieska}
+              onChange={(e) => setPaieska(e.target.value)}
               type="text"
               className="w-100 px-4 py-3"
               style={{ borderRadius: "18px", outline: "none", border: "none" }}
             ></input>
           </div>
           <div
+            onClick={() => history.push("/listings/search/" + paieska)}
             className="col-12 bg-theme-darker mx-2 px-4 py-3 my-1 text-white text-center"
             style={{ borderRadius: "18px" }}
           >

@@ -1,5 +1,5 @@
 import React from "react";
-import GirlFreelancing from "./Images/GirlFreelancing";
+import GirlFreelancing from "../Images/GirlFreelancing";
 
 const InvitePoster = () => {
   let antraste = "Norite tapti Freelanceriu?";
@@ -24,16 +24,10 @@ const InvitePoster = () => {
             >
               {antraste}
             </div>
-            <div
-              className="row no-gutters mb-4 d-flex d-md-none"
-              style={{ fontSize: "18px" }}
-            >
+            <div className="row no-gutters mb-4 d-flex d-md-none" style={{ fontSize: "18px" }}>
               {detales}
             </div>
-            <div
-              className="row no-gutters mb-4 d-none d-md-flex"
-              style={{ fontSize: "28px" }}
-            >
+            <div className="row no-gutters mb-4 d-none d-md-flex" style={{ fontSize: "28px" }}>
               {detales}
             </div>
             <div className="d-flex">

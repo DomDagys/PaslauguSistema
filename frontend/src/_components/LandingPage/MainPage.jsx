@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../Logo";
-import RightTopCorner from "./Images/RightTopCorner";
-const MainPage = () => {
+import RightTopCorner from "../Images/RightTopCorner";
+import { history } from "../../_helpers";
+
+const MainPage = ({ user }) => {
   let antraste = ["Raskite", "Freelancerius", "Lietuvoje"];
   let themeColor = "#4865FF";
   let populiariosPaieskos = ["React js", "Web developer", "Data analyst"];
+  const [paieska, setPaieska] = useState("");
   return (
     <div
       className="row no-gutters position-relative px-md-5 px-3 py-4 align-items-center mx-auto"
@@ -33,14 +36,28 @@ const MainPage = () => {
             <Logo></Logo>
           </div>
           <div className="col-auto">
-            <div className="row no-gutters text-white">
-              <a className="col-auto mr-5" href="/account/register">
-                Tapti freelanceriu
-              </a>
-              <a className="col-auto" href="/account/login">
-                Prisijungti
-              </a>
-            </div>
+            {user ? (
+              <div
+                className="square-40 rounded-circle text-theme d-flex flex-center"
+                style={{
+                  background: "#E5EDFF",
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                }}
+              >
+                {user.firstName.charAt(0)}
+              </div>
+            ) : (
+              <div className="row no-gutters text-white">
+                <a className="col-auto mr-5" href="/account/register">
+                  Tapti freelanceriu
+                </a>
+                <a className="col-auto" href="/account/login">
+                  Prisijungti
+                </a>
+              </div>
+            )}
           </div>
         </div>
         <div className="row no-gutters mb-5 pt-3">
@@ -61,6 +78,15 @@ const MainPage = () => {
           <div className="col-12 col-md-8 col-lg-7 col-xl-6">
             <div className="row no-gutters align-items-center d-none d-md-flex">
               <input
+                value={paieska}
+                onChange={(e) => {
+                  setPaieska(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.keyCode === 13) {
+                    history.push("/listings/search/" + paieska);
+                  }
+                }}
                 type="text"
                 className="col py-3 px-3"
                 style={{
@@ -72,8 +98,12 @@ const MainPage = () => {
                 }}
               ></input>
               <div
+                onClick={() => {
+                  history.push("/listings/search/" + paieska);
+                }}
                 className="col-auto px-5 py-3 text-white"
                 style={{
+                  cursor: "pointer",
                   background: themeColor,
                   border: "9px solid " + themeColor,
                   borderRadius: "0 28px 28px 0",

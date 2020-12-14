@@ -1,0 +1,38 @@
+.pagination-item-selected {
+  background: #4865ff;
+  border-radius: 10px;
+  height: 46px;
+  line-height: 46px;
+  color: white;
+}
+
+.pagination-item {
+  height: 46px;
+  line-height: 46px;
+  background: #e5edff;
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.pagination-item:hover {
+  background: #4865ff;
+  color: white;
+}
+
+.dropdown-menu {
+  padding: 0;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
+.cover-theme-0-10 {
+  backround: #4865ff;
+  transition: 0.2s;
+}
+
+.cover-theme-0-10:hover {
+  background: #364bb8;
+}

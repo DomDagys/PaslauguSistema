@@ -7,7 +7,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
   <div
     className="bg-theme d-flex pl-4 py-2 pr-3 text-white align-items-center position-relative justify-content-between"
     style={{
-      borderRadius: "18px",
+      borderRadius: "13px",
       fontSize: "14px",
       zIndex: 5,
       cursor: "pointer",
@@ -20,10 +20,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     }}
   >
     <div className="mr-2">{children}</div>
-    <div
-      className="square-30 bg-theme-darker flex-center d-flex"
-      style={{ borderRadius: "11px" }}
-    >
+    <div className="square-30 bg-theme-darker flex-center d-flex" style={{ borderRadius: "11px" }}>
       <ArrowDown></ArrowDown>
     </div>
   </div>
@@ -44,8 +41,7 @@ const CustomMenu = React.forwardRef(
       >
         <ul className="list-unstyled w-100">
           {React.Children.toArray(children).filter(
-            (child) =>
-              !value || child.props.children.toLowerCase().startsWith(value)
+            (child) => !value || child.props.children.toLowerCase().startsWith(value)
           )}
         </ul>
       </div>
@@ -69,11 +65,7 @@ const Select = ({
         {items.map((x, i) => (
           <Dropdown.Item key={uniqid()}>
             <div
-              className={
-                i === selected
-                  ? "my-dropdown-item-selected"
-                  : "my-dropdown-item"
-              }
+              className={i === selected ? "my-dropdown-item-selected" : "my-dropdown-item"}
               eventKey={i + 1}
               onClick={() => setSelected(i)}
             >

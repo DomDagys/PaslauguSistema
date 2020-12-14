@@ -69,28 +69,6 @@
   padding: 0 !important;
 }
 
-.pagination-item-selected {
-  background: #293a91;
-  border-radius: 15px;
-  height: 46px;
-  line-height: 46px;
-  color: white;
-}
-
-.pagination-item {
-  height: 46px;
-  color: white;
-  line-height: 46px;
-  background: #4865ff;
-  border-radius: 15px;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.pagination-item:hover {
-  background: #3249b9;
-}
-
 .listing-image-holder {
   transition: 0.8s;
 }
@@ -125,4 +103,9 @@ a {
 a:hover {
   color: inherit;
   text-decoration: underline;
+}
+
+.square-40 {
+  width: 40px !important;
+  height: 40px !important;
 }
