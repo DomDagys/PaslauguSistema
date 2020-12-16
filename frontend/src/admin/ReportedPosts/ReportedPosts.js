@@ -18,7 +18,7 @@ class ReportedPosts extends Component {
 
     render() { 
       let count = 1;
-        return ( <div>
+        return ( <div className="adminTable">
             <h1 className="center">Paskųsti skelbimai</h1>
             <Table striped bordered hover>
   <thead>

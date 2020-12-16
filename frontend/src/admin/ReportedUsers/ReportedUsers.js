@@ -19,7 +19,7 @@ class ReportedUsers extends Component {
     render() { 
       let count = 1;
       console.log(this.state);
-        return ( <div>
+        return ( <div className="adminTable">
             <h1 className="center">Paskųsti vartotojai</h1>
             <Table striped bordered hover>
   <thead>

@@ -7,8 +7,6 @@ function model(sequelize) {
         reason: { type: DataTypes.STRING, allowNull: false },
         suspendedBy: { type: DataTypes.STRING, allowNull: false },
         from: { type: DataTypes.DATE, allowNull: false },
-        to: { type: DataTypes.DATE, allowNull: true },
-        isValid: { type: DataTypes.BOOLEAN, allowNull: false},
         reportCount : { type: DataTypes.INTEGER, allowNull: false }
     };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
-import { reportService } from '../../_services';
+import { postService } from '../../_services';
 import UserPostRow from './UserPostRow';
 import '../../styles/Admin.css'
 
@@ -22,13 +22,13 @@ class UserPostsTable extends Component {
     }
 
     getUserPosts() {
-      reportService.getUserPosts(this.state.searchedUser)
+      postService.getUserPosts(this.state.searchedUser)
         .then(posts => this.setState({userPosts: posts}));
     }
 
     render() { 
       let count = 1;
-        return ( <div>
+        return ( <div className="adminTable">
             <h1 className="center">Vartotojo skelbimų paieška</h1>
             <div className="searchBar">
                 <input type="text" name="searchedUser" className="searchField" placeholder="Vartotojas" onChange={this.handleChange}></input>
@@ -47,6 +47,7 @@ class UserPostsTable extends Component {
   </thead>
   <tbody>
     {this.state.userPosts &&
+    this.state.userPosts.posts &&
     this.state.userPosts.posts.map(post => <UserPostRow key={count} number={count++} {...post} username={this.state.userPosts.username}/>)}
   </tbody>
 </Table>    

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { accountService } from '../../_services';
 import UserRow from './UserRow';
-import '../../styles/Admin.css'
+import '../../styles/Admin.css';
 
 class UserTable extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class UserTable extends Component {
     render() { 
       let count = 1;
         return ( 
-        <div>
+        <div className="adminTable">
             <h1 className="center">Vartotojai</h1>
             <Table striped bordered hover>
   <thead>

@@ -7,13 +7,15 @@ module.exports = {
   getPostsByCategory,
   getPostsBySearch,
   getPostById,
-  getUserReports,
-  getPostReports,
+  getUserPosts
 };
 
 async function getPostById(req, res) {
   let id = req.params.id;
   if (id) {
+    const suspended = await db.Suspension.count({where: {postId: id}});
+    if (suspended > 0)
+      res.json({ error: "Skelbimas suspenduotas." });
     const post = await db.Post.findOne({
       where: { id: id },
       include: [
@@ -26,7 +28,7 @@ async function getPostById(req, res) {
     });
     res.json({ success: true, data: post });
   } else {
-    res.json({ error: "Nenurodyts ID" });
+    res.json({ error: "Nenurodytas id." });
   }
 }
 
@@ -35,14 +37,27 @@ async function getPostsByCategory(req, res) {
   console.log("KEY", key);
   if (key) {
     const posts = await db.Post.findAll({
-      where: { category: key },
       include: [
         {
           model: db.Account,
           as: "account",
           required: false,
         },
+        {
+          model: db.Suspension,
+          required: false,
+          attributes: [],
+        }
       ],
+      where: { 
+        [Op.and]: [
+          db.sequelize.where(
+          db.sequelize.col('suspensions.postId'),
+          'IS',
+          null), 
+          {category: key}
+        ] 
+      },
     });
     res.json({ success: true, data: posts });
   } else {
@@ -57,11 +72,19 @@ async function getPostsBySearch(req, res) {
   const posts = key
     ? await db.Post.findAll({
         where: {
-          [Op.or]: [
-            { title: { [Op.substring]: key } },
-            { category: { [Op.substring]: key } },
-            { description: { [Op.substring]: key } },
-          ],
+          [Op.and]: [
+            db.sequelize.where(
+            db.sequelize.col('suspensions.postId'),
+            'IS',
+            null), 
+            {
+              [Op.or]: [
+                { title: { [Op.substring]: key } },
+                { category: { [Op.substring]: key } },
+                { description: { [Op.substring]: key } },
+              ]
+            }
+          ]
         },
         include: [
           {
@@ -69,107 +92,32 @@ async function getPostsBySearch(req, res) {
             as: "account",
             required: false,
           },
+          {
+            model: db.Suspension,
+            required: false,
+            attributes: [],
+          }
         ],
       })
     : await db.Post.findAll();
   res.json({ success: true, data: posts });
 }
 
-async function reportPost(body) {
-  let { category, postId } = body;
-  let curDate = Date.now();
-  const postReport = await db.Report.findOne({ where: { postId: postId, category: category } });
-
-  if (!postReport) {
-    const report = new db.Report({
-      category: category,
-      count: 1,
-      lastReported: curDate,
-      cleared: 0,
-      clearDate: null,
-      clearedBy: null,
-      accountId: null,
-      postId: postId,
-    });
-    await report.save();
-  } else {
-    postReport.count += 1;
-    postReport.cleared = 0;
-    postReport.lastReported = curDate;
-    await postReport.save();
-  }
+async function getUserPosts(username) {
+  let values = username.split(' ');
+if (values.length == 2){
+  const count = await db.Account.count({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
+  if (count == 0)
+      return null;
+  const user =await db.Account.findOne({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
+  const posts = await db.Post.findAll({where: {accountId: user.id}});
+  return {posts: posts, username: user.firstName + " " + user.lastName};   
+} else {
+  const count = await db.Account.count({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
+  if (count == 0)
+      return null;
+  const user = await db.Account.findOne({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
+  const posts = await db.Post.findAll({where: {accountId: user.id}});
+  return {posts: posts, username: user.firstName + " " + user.lastName};   
 }
-
-async function getUserReports() {
-  const reports = await db.sequelize.query(
-    "SELECT " +
-      tableNames.Reports +
-      ".accountId, " +
-      tableNames.Reports +
-      ".id, " +
-      tableNames.Accounts +
-      ".firstName, " +
-      tableNames.Accounts +
-      ".lastName, " +
-      tableNames.Reports +
-      ".category, " +
-      tableNames.Reports +
-      ".count, " +
-      tableNames.Reports +
-      ".lastReported FROM `" +
-      tableNames.Accounts +
-      "` INNER JOIN `" +
-      tableNames.Reports +
-      "` ON " +
-      tableNames.Accounts +
-      ".id = " +
-      tableNames.Reports +
-      ".accountId WHERE " +
-      tableNames.Reports +
-      ".cleared = 0",
-    { type: QueryTypes.SELECT }
-  );
-  if (!reports) return null;
-  return reports;
-}
-
-async function getPostReports() {
-  const reports = await db.sequelize.query(
-    "SELECT " +
-      tableNames.Reports +
-      ".postId, " +
-      tableNames.Reports +
-      ".id, title, " +
-      tableNames.Accounts +
-      ".firstName, " +
-      tableNames.Accounts +
-      ".lastName, " +
-      tableNames.Reports +
-      ".category, " +
-      tableNames.Reports +
-      ".count, " +
-      tableNames.Reports +
-      ".lastReported FROM `" +
-      tableNames.Posts +
-      "` INNER JOIN `" +
-      tableNames.Reports +
-      "` ON " +
-      tableNames.Posts +
-      ".id = " +
-      tableNames.Reports +
-      ".postId " +
-      "INNER JOIN `" +
-      tableNames.Accounts +
-      "` ON " +
-      tableNames.Posts +
-      ".accountId = " +
-      tableNames.Accounts +
-      ".id " +
-      "WHERE " +
-      tableNames.Reports +
-      ".cleared = 0",
-    { type: QueryTypes.SELECT }
-  );
-  if (!reports) return null;
-  return reports;
 }

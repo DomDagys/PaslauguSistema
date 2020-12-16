@@ -9,7 +9,6 @@ module.exports = {
     getUserReports,
     getPostReports,
     clearReport,
-    getUserPosts
 }
 
 async function reportUser(body) {
@@ -97,33 +96,4 @@ async function clearReport(id, adminName) {
     report.clearDate = curDate;
     report.clearedBy = adminName;
     await report.save();
-}
-
-async function findUserReport(id, category) {
-    const userReport = await db.Report.findOne({ where: { accountId: id, category: category } });
-    return userReport;
-}
-
-async function findPostReport(id, category){
-    const postReport = await db.Report.findOne({ where: { postId: id, category: category } });
-    return postReport;
-}
-
-async function getUserPosts(username) {
-        let values = username.split(' ');
-    if (values.length == 2){
-        const count = await db.Account.count({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
-        if (count == 0)
-            return null;
-        const user =await db.Account.findOne({where: {firstName: {[Op.substring]: values[0]}, lastName: {[Op.substring]: values[1]}}});
-        const posts = await db.Post.findAll({where: {accountId: user.id}});
-        return {posts: posts, username: user.firstName + " " + user.lastName};   
-    } else {
-        const count = await db.Account.count({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
-        if (count == 0)
-            return null;
-        const user = await db.Account.findOne({where: { [Op.or]:[{firstName: {[Op.substring]: username}}, {lastName: {[Op.substring]: username}}] }});
-        const posts = await db.Post.findAll({where: {accountId: user.id}});
-        return {posts: posts, username: user.firstName + " " + user.lastName};   
-    }
 }

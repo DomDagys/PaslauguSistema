@@ -11,3 +11,11 @@
 .searchBar {
     margin: 20px;
 }
+
+.adminTable {
+    margin: 100px;
+}
+
+.actionCell {
+    padding: 5px;
+}

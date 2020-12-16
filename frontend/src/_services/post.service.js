@@ -9,6 +9,7 @@ export const postService = {
   getPostById,
   rememberPost,
   getRelativePosts,
+  getUserPosts
 };
 
 function getPostsByCategory(category) {
@@ -20,7 +21,7 @@ function getPostsBySearch(search, accountId = -1) {
 }
 
 function getPostById(id) {
-  return fetchWrapper.get(`${baseUrl}/${id}`);
+  return fetchWrapper.get(`${baseUrl}/byId/${id}`);
 }
 
 function rememberPost(postId, accountId) {
@@ -29,4 +30,8 @@ function rememberPost(postId, accountId) {
 
 function getRelativePosts(accountId) {
   return fetchWrapper.get(`${baseUrl}?accountId=${search}&id=accountId`);
+}
+
+function getUserPosts(username) {
+  return fetchWrapper.get(`${baseUrl}/userPosts?username=${username}`);
 }

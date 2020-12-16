@@ -12,7 +12,6 @@ router.post('/post', authorize(), reportPostSchema, reportPost);
 router.get('/user', authorize(Role.Admin), getUserReports);
 router.get('/post', authorize(Role.Admin), getPostReports);
 router.put('/clear', authorize(Role.Admin), clearReportSchema, clearReport);
-router.get('/userPosts', getUserPosts);
 
 module.exports = router;
 
@@ -67,14 +66,4 @@ function clearReport(req, res, next){
     reportService.clearReport(id, adminName)
         .then(() => res.json({ message: "Paskundimas išvalytas." }))
         .catch(next);
-}
-
-function getUserPosts(req, res, next) {
-    try {
-        reportService.getUserPosts(req.query.username)
-            .then(posts => res.json(posts))
-            .catch(next);
-    } catch (err) {
-        res.status(404).json({ message: "Nepavyko gauti vartotojo skelbimų."});
-    }
 }

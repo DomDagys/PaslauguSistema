@@ -19,10 +19,6 @@ module.exports = {
 }
 
 async function suspendPost(postId, adminName) {
-    const searchResult = await db.Suspension.count({where: {postId: postId, isValid: 1}});
-    if (searchResult !== 0)
-        return;
-
     let curDate = Date.now();
     let clearDate = dateConverter.convertDate(new Date(curDate));
     let category = "";
@@ -41,12 +37,14 @@ async function suspendPost(postId, adminName) {
     await db.sequelize.query("UPDATE "+ tableNames.Reports +" SET count = '0', cleared = '1', clearDate = '" +
     clearDate + "', clearedBy = '"+ adminName +"' WHERE postId = '"+ postId +"'", {type: QueryTypes.UPDATE});
 
+    let suspended = await db.Suspension.count({where: {postId: postId}});
+    if (suspended > 0)
+        return null;
+
     const suspension = new db.Suspension({
         reason: category,
         suspendedBy: adminName,
         from: curDate,
-        to: null,
-        isValid: 1,
         reportCount: count,
         accountId: null,
         postId: postId
@@ -58,10 +56,8 @@ async function suspendPost(postId, adminName) {
 async function getSuspendedPosts() {
     const suspensions = await db.sequelize.query("SELECT "+ tableNames.Suspensions +".id, "+ tableNames.Posts +".id AS 'postId', "+ tableNames.Posts +".title, "+ 
     tableNames.Accounts +".firstName, "+ tableNames.Accounts +".lastName, reason, reportCount, suspendedBy, "+ 
-    tableNames.Suspensions +".from, "+ tableNames.Suspensions +
-    ".to FROM `"+ tableNames.Suspensions +"` INNER JOIN "+ tableNames.Posts +" ON "+ tableNames.Posts +".id = postId " +
-    "INNER JOIN "+ tableNames.Accounts +" ON "+ tableNames.Accounts +".id = "+ tableNames.Posts +".accountId " +
-    "WHERE isValid = '1'", { type: QueryTypes.SELECT});
+    tableNames.Suspensions +".from FROM `"+ tableNames.Suspensions +"` INNER JOIN "+ tableNames.Posts +" ON "+ tableNames.Posts +".id = postId " +
+    "INNER JOIN "+ tableNames.Accounts +" ON "+ tableNames.Accounts +".id = "+ tableNames.Posts +".accountId ", { type: QueryTypes.SELECT});
     if (!suspensions)
         return null;
     return suspensions;
@@ -69,10 +65,7 @@ async function getSuspendedPosts() {
 
 async function removePostSuspension(id) {
     const suspension = await db.Suspension.findOne({ where: {id: id}});
-    let curDate = Date.now();
-    suspension.isValid = 0;
-    suspension.to = curDate;
-    await suspension.save();
+    await suspension.destroy();
 }
 
 async function removePost(postId) {
@@ -83,10 +76,6 @@ async function removePost(postId) {
 }
 
 async function suspendUser(accountId, adminName) {
-    const searchResult = await db.Suspension.count({where: {accountId: accountId, isValid: 1}});
-    if (searchResult !== 0)
-        return;
-
     let curDate = Date.now();
     let category = "";
     let count = 0;
@@ -100,12 +89,14 @@ async function suspendUser(accountId, adminName) {
     await db.sequelize.query("UPDATE "+ tableNames.Reports +" SET count = '0', cleared = '1', clearDate = '" +
     clearDate + "', clearedBy = '"+ adminName +"' WHERE accountId = '"+ accountId +"'", {type: QueryTypes.UPDATE});
 
+    let suspended = await db.Suspension.count({where: {accountId: accountId}});
+    if (suspended > 0)
+        return null;
+
     const suspension = new db.Suspension({
         reason: category,
         suspendedBy: adminName,
         from: curDate,
-        to: null,
-        isValid: 1,
         reportCount: count,
         accountId: accountId,
         postId: null
@@ -121,27 +112,24 @@ async function suspendUser(accountId, adminName) {
 async function getSuspendedUsers() {
     const suspensions = await db.sequelize.query("SELECT "+ tableNames.Suspensions +".id, reason, reportCount, suspendedBy, "+ 
     tableNames.Suspensions +".from, accountId, firstName, lastName FROM "+ tableNames.Suspensions +
-    " INNER JOIN "+ tableNames.Accounts +" ON "+ tableNames.Accounts +".id = accountId WHERE "+ tableNames.Suspensions +".isValid = '1'", {type: QueryTypes.SELECT});
+    " INNER JOIN "+ tableNames.Accounts +" ON "+ tableNames.Accounts +".id = accountId", {type: QueryTypes.SELECT});
     if (!suspensions)
         return null;
     return suspensions;
 }
 
 async function removeUserSuspension(suspensionId, accountId){
-    const suspension = await db.Suspension.findOne({ where: {id: suspensionId, isValid: 1}});
-    let curDate = Date.now();
-    suspension.isValid = 0;
-    suspension.to = curDate;
-    await suspension.save();
+    const suspension = await db.Suspension.findOne({ where: {id: suspensionId}});
+    await suspension.destroy();
 
     const results = await db.Post.findAll({where: {accountId: accountId}})
     const posts = results.map(post => post.dataValues.id);
 
-    await db.Suspension.update({isValid: 0, to: curDate}, {where: {postId:{[Op.or]: posts}, isValid: 1, from: suspension.from}});
+    await db.Suspension.destroy({where: {postId:{[Op.or]: posts}, from: suspension.from}});
 }
 
 async function isUserSuspended(accountId) {
-    const count = await db.Suspension.count({where: {accountId: accountId, isValid: 1}})
+    const count = await db.Suspension.count({where: {accountId: accountId}})
     if (count == 0)
         return false;
     else 
@@ -149,7 +137,7 @@ async function isUserSuspended(accountId) {
 }
 
 async function isPostSuspended(postId) {
-    const count = await db.Suspension.count({where: {postId: postId, isValid: 1}})
+    const count = await db.Suspension.count({where: {postId: postId}})
     if (count === 0)
         return false;
     else 
