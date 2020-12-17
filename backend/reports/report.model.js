@@ -5,7 +5,7 @@ module.exports = model;
 function model(sequelize) {
     const attributes = {
         category: { type: DataTypes.ENUM(['Apgaudinėjimas', 'Netinkamas turinys', 
-        'Smurtas', 'Šlamštas', 'Neapykantos kurstymas']), allowNull: false },
+        'Smurtas', 'Šlamštas', 'Neapykantos kurstymas', 'Suspenduota dėl vartotojo.']), allowNull: false },
         count: { type: DataTypes.INTEGER, allowNull: false},
         lastReported: { type: DataTypes.DATE, allowNull: false},
         cleared: { type: DataTypes.BOOLEAN, allowNull: false},

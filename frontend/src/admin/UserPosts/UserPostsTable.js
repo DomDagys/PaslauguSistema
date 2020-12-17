@@ -43,6 +43,7 @@ class UserPostsTable extends Component {
       <th>Aprašymas</th>
       <th>Kategorija</th>
       <th>Peržiūros</th>
+      <th>Veiksmai</th>
     </tr>
   </thead>
   <tbody>

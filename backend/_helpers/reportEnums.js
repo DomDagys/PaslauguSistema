@@ -4,5 +4,5 @@ module.exports = {
     Violence: "Smurtas",
     Spam: "Šlamštas",
     PromotingHatred: "Neapykantos kurstymas",
-    UserSuspension: "Suspenduota dėl vartotojo."
+    AdminSuspension: "Suspenduotas administratoriaus"
 }

@@ -19,3 +19,22 @@
 .actionCell {
     padding: 5px;
 }
+
+.sortSelect {
+    margin-right: 20px;
+    margin-bottom: 5%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgrey;
+}
+
+.sortLabel {
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.sortLabel {
+    margin-right: 20px;
+    font-weight: bold;
+}

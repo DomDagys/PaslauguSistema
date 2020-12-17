@@ -29,6 +29,7 @@ class UserTable extends Component {
       <th>Pavardė</th>
       <th>El. paštas</th>
       <th>Paskyra sukurta</th>
+      <th>Veiksmai</th>
     </tr>
   </thead>
   <tbody>

@@ -27,7 +27,7 @@ function suspendPostSchema(req, res, next){
 
 function suspendPost(req, res, next) {
     let { postId, adminName } = req.body;
-    suspensionService.suspendPost(postId, adminName)
+    suspensionService.suspendPost(postId, adminName, null)
         .then(() => res.json({ message: "Skelbimas suspenduotas. "}))
         .catch(next);
 }

@@ -20,7 +20,8 @@ class ReportedPostRow extends Component {
     }
 
     suspend() {
-        let adminName = this.props.firstName + " " + this.props.lastName;
+        const user = accountService.userValue;
+        let adminName = user.firstName + " " + user.lastName;
         suspensionService.suspendPost(this.props.postId, adminName)
             .then(() => window.location.reload(true));
     }

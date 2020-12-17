@@ -14,6 +14,11 @@ module.exports = {
 async function reportUser(body) {
     let { category, accountId } = body;
     let curDate = Date.now();
+
+    const user = await db.Account.findOne({where: {id: accountId}});
+    if (!user || user.role === "Admin")
+        return;
+
     const userReport = await db.Report.findOne({ where: { accountId: accountId, category: category } });
 
     if (!userReport){
