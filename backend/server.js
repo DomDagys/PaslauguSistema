@@ -15,10 +15,10 @@ app.use(cookieParser());
 app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
 
 // api routes
-app.use("/accounts", require("./accounts/accounts.controller"));
-app.use("/report", require("./reports/reports.controller"));
-app.use("/suspend", require("./suspensions/suspension.controller"));
-app.use("/posts", require("./posts/posts.controller"));
+app.use("/accounts", require("./controllers/accounts.controller"));
+app.use("/report", require("./controllers/reports.controller"));
+app.use("/suspend", require("./controllers/suspension.controller"));
+app.use("/posts", require("./controllers/posts.controller"));
 
 // swagger docs route
 app.use("/api-docs", require("_helpers/swagger"));

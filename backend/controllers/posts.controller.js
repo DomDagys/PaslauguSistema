@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const postService = require("./post.service");
+const postService = require("../services/post.service");
 
 // routes
 router.get("/category/:key", postService.getPostsByCategory);

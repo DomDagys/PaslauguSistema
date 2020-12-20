@@ -4,7 +4,7 @@ const Joi = require('joi');
 const Role = require('_helpers/role');
 const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize')
-const reportService = require('./report.service');
+const reportService = require('../services/report.service');
 
 
 router.post('/user', authorize(), reportUserSchema, reportUser);

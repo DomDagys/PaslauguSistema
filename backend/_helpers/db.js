@@ -19,12 +19,12 @@ async function initialize() {
   db.sequelize = sequelize;
 
   // init models and add them to the exported db object
-  db.Account = require("../accounts/account.model")(sequelize);
-  db.RefreshToken = require("../accounts/refresh-token.model")(sequelize);
-  db.Post = require("../posts/post.model")(sequelize);
-  db.Report = require("../reports/report.model")(sequelize);
-  db.Suspension = require("../suspensions/suspension.model")(sequelize);
-  db.RememberedPost = require("../posts/remembered-post.model")(sequelize);
+  db.Account = require("../models/account.model")(sequelize);
+  db.RefreshToken = require("../models/refresh-token.model")(sequelize);
+  db.Post = require("../models/post.model")(sequelize);
+  db.Report = require("../models/report.model")(sequelize);
+  db.Suspension = require("../models/suspension.model")(sequelize);
+  db.RememberedPost = require("../models/remembered-post.model")(sequelize);
 
   // define relationships
   db.Account.hasMany(db.RefreshToken, { onDelete: "CASCADE" });

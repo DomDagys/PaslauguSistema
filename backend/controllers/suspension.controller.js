@@ -4,7 +4,7 @@ const Joi = require("joi");
 const Role = require("_helpers/role");
 const validateRequest = require("_middleware/validate-request");
 const authorize = require("_middleware/authorize");
-const suspensionService = require("./suspension.service");
+const suspensionService = require("../services/suspension.service");
 
 router.post("/post", authorize(Role.Admin), suspendPostSchema, suspendPost);
 router.post("/user", authorize(Role.Admin), suspendUserSchema, suspendUser);

@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 const sendEmail = require('_helpers/send-email');
 const db = require('_helpers/db');
 const Role = require('_helpers/role');
-const suspensionService = require('../suspensions/suspension.service');
+const suspensionService = require('./suspension.service');
 
 module.exports = {
     authenticate,

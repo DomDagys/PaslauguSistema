@@ -1,8 +1,5 @@
 const db = require("_helpers/db");
-const tableNames = require("../_helpers/dbTables");
-const { QueryTypes } = require("sequelize");
 const { Op } = require("sequelize");
-const { post } = require("./posts.controller");
 
 module.exports = {
   getPostsByCategory,
