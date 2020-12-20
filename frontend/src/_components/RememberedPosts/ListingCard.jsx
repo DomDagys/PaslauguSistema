@@ -6,7 +6,7 @@ const ListingCard = ({ listing }) => {
   console.log("listing", listing);
   return (
     <div
-      onClick={() => history.push("/listings/" + listing.id)}
+      onClick={() => history.push("/listings/" + listing.post.id)}
       className="row no-gutters border h-100"
       style={{ borderRadius: "15px", overflow: "hidden" }}
     >
@@ -17,7 +17,7 @@ const ListingCard = ({ listing }) => {
             style={{
               width: "100%",
               paddingTop: "70%",
-              backgroundImage: `url(${listing.images.split("|")[0]})`,
+              backgroundImage: `url(${listing.post.images.split("|")[0]})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -36,10 +36,10 @@ const ListingCard = ({ listing }) => {
         </div>
         <div className="row no-gutters flex-grow-1">
           <div className="col-12 p-3">
-            {listing.title}
+            {listing.post.title}
             <div className="d-flex pt-2 text-muted">
               <div className="mr-2">Atlikimo laikas: </div>
-              <div>{listing.deliveryTime} dienos</div>
+              <div>{listing.post.deliveryTime} dienos</div>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ const ListingCard = ({ listing }) => {
             <div className="row no-gutters justify-content-between">
               <div className="col-auto">Peržiūrėti</div>
               <div className="col-auto" style={{ fontSize: "16px" }}>
-                {listing.price}$
+                {listing.post.price}$
               </div>
             </div>
           </div>

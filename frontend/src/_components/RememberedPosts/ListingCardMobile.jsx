@@ -5,7 +5,7 @@ import { history } from "../../_helpers";
 const ListingCard = ({ listing }) => {
   return (
     <div
-      onClick={() => history.push("/listings/" + listing.id)}
+      onClick={() => history.push("/listings/" + listing.post.id)}
       className="row no-gutters border h-100"
       style={{ borderRadius: "15px", overflow: "hidden", fontSize: "14px" }}
     >
@@ -13,7 +13,7 @@ const ListingCard = ({ listing }) => {
         className="col-6"
         style={{
           paddingTop: "40%",
-          backgroundImage: `url(${listing.images.split("|")[0]})`,
+          backgroundImage: `url(${listing.post.images.split("|")[0]})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -31,10 +31,10 @@ const ListingCard = ({ listing }) => {
         </div>
         <div className="row no-gutters flex-grow-1">
           <div className="col-12 p-2">
-            {listing.title}
+            {listing.post.title}
             <div className="pt-2">
               <div className="text-muted">Atlikimo laikas: </div>
-              <div>{listing.deliveryTime} dienos</div>
+              <div>{listing.post.deliveryTime} dienos</div>
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@ const ListingCard = ({ listing }) => {
                   <div>Įsiminti</div>
                 </div>
               </div>
-              <div className="col-auto">{listing.price}$</div>
+              <div className="col-auto">{listing.post.price}$</div>
             </div>
           </div>
         </div>

@@ -28,7 +28,7 @@ async function rememberPost(req, res) {
 async function getRememberedPosts(req, res) {
   const accountId = req.params.accountId;
   if (accountId) {
-    const posts = await db.Post.findAll({
+    const posts = await db.RememberedPost.findAll({
       where: { accountId: accountId },
       include: [
         {
@@ -36,6 +36,11 @@ async function getRememberedPosts(req, res) {
           as: "account",
           required: false,
         },
+        {
+          model: db.Post,
+          as: "post",
+          required: true
+        }
       ],
     });
     res.json({ success: true, data: posts });
