@@ -3,5 +3,6 @@ export const dateConverter = {
 }
 
 function convertDate(obj) {
-    return obj.getFullYear()+"-"+obj.getMonth()+"-"+obj.getDate()+" "+obj.getHours()+":"+obj.getMinutes()+":"+obj.getSeconds();
+    let month = obj.getMonth() + 1;
+    return obj.getFullYear()+"-"+month+"-"+obj.getDate()+" "+obj.getHours()+":"+obj.getMinutes()+":"+obj.getSeconds();
 }
