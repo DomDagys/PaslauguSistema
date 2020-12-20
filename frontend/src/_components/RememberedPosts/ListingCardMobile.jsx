@@ -25,9 +25,9 @@ const ListingCard = ({ listing }) => {
             className="col-auto mr-2 square-30 rounded-circle d-flex flex-center text-theme"
             style={{ background: "#E6EDFF" }}
           >
-            <div>{listing.account.firstName.charAt(0)}</div>
+            <div>{listing.post.account.firstName.charAt(0)}</div>
           </div>
-          <div className="col-auto">{listing.account.firstName}</div>
+          <div className="col-auto">{listing.post.account.firstName}</div>
         </div>
         <div className="row no-gutters flex-grow-1">
           <div className="col-12 p-2">

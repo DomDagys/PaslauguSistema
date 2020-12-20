@@ -32,14 +32,16 @@ async function getRememberedPosts(req, res) {
       where: { accountId: accountId },
       include: [
         {
-          model: db.Account,
-          as: "account",
-          required: false,
-        },
-        {
           model: db.Post,
           as: "post",
-          required: true
+          required: true,
+          include: [
+            {
+              model: db.Account,
+              as: "account",
+              required: false
+            }
+          ]
         }
       ],
     });
