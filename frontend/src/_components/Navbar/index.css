@@ -1,0 +1,10 @@
+.menuitem:hover {
+  background: #4865ff;
+  color: white;
+}
+
+.menuitem {
+  background: white;
+  color: black;
+  transition: 0.2s;
+}

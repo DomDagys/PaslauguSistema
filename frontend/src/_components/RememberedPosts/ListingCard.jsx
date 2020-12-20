@@ -2,9 +2,8 @@ import React from "react";
 import HeartIcon from "../Images/HeartIcon";
 import { history } from "../../_helpers";
 
-const ListingCard = ({ listing, rememberPost }) => {
+const ListingCard = ({ listing }) => {
   console.log("listing", listing);
-
   return (
     <div
       onClick={() => history.push("/listings/" + listing.id)}
@@ -47,21 +46,7 @@ const ListingCard = ({ listing, rememberPost }) => {
         <div className="row no-gutters flex-grow-0">
           <div className="col-12 p-3" style={{ background: "#E5EDFF" }}>
             <div className="row no-gutters justify-content-between">
-              <div className="col-auto">
-                <div
-                  className="row no-gutters align-items-center"
-                  style={{ cursor: "pointer" }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    rememberPost(listing.id);
-                  }}
-                >
-                  <div className="col-auto mr-2">
-                    <HeartIcon size={18}></HeartIcon>
-                  </div>
-                  <div>Įsiminti</div>
-                </div>
-              </div>
+              <div className="col-auto">Peržiūrėti</div>
               <div className="col-auto" style={{ fontSize: "16px" }}>
                 {listing.price}$
               </div>

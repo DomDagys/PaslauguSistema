@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Logo from "../Logo";
 import RightTopCorner from "../Images/RightTopCorner";
 import { history } from "../../_helpers";
+import { accountService } from "@/_services";
 
 const MainPage = ({ user }) => {
   let antraste = ["Raskite", "Freelancerius", "Lietuvoje"];
   let themeColor = "#4865FF";
   let populiariosPaieskos = ["React js", "Web developer", "Data analyst"];
   const [paieska, setPaieska] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <div
       className="row no-gutters position-relative px-md-5 px-3 py-4 align-items-center mx-auto"
@@ -37,17 +39,49 @@ const MainPage = ({ user }) => {
           </div>
           <div className="col-auto">
             {user ? (
-              <div
-                className="square-40 rounded-circle text-theme d-flex flex-center"
-                style={{
-                  background: "#E5EDFF",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                }}
-              >
-                {user.firstName.charAt(0)}
-              </div>
+              <React.Fragment>
+                {showMenu ? (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50px",
+                      right: 0,
+                      zIndex: "100",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      className="p-3 menuitem text-nowrap border"
+                      onClick={() => {
+                        history.push("/remembered-posts");
+                      }}
+                    >
+                      Įsiminti skelbimai
+                    </div>
+                    <div
+                      className="p-3 menuitem text-nowrap border"
+                      onClick={accountService.logout}
+                    >
+                      Atsijungti
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="square-40 rounded-circle text-theme d-flex flex-center"
+                  style={{
+                    background: "#E5EDFF",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    fontSize: "20px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {user.firstName.charAt(0)}
+                </div>
+              </React.Fragment>
             ) : (
               <div className="row no-gutters text-white">
                 <a className="col-auto mr-5" href="/account/register">

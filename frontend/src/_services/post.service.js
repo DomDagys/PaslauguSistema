@@ -9,7 +9,8 @@ export const postService = {
   getPostById,
   rememberPost,
   getRelativePosts,
-  getUserPosts
+  getUserPosts,
+  getRememberedPosts,
 };
 
 function getPostsByCategory(category) {
@@ -25,7 +26,11 @@ function getPostById(id) {
 }
 
 function rememberPost(postId, accountId) {
-  return fetchWrapper.post(`${baseUrl}/rememember`, { postId, accountId });
+  return fetchWrapper.post(`${baseUrl}/remember`, { postId, accountId });
+}
+
+function getRememberedPosts(accountId) {
+  return fetchWrapper.get(`${baseUrl}/rememberedBy/${accountId}`);
 }
 
 function getRelativePosts(accountId) {

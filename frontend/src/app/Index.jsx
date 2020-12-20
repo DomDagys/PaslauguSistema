@@ -15,6 +15,7 @@ import ChatUsers from "../_components/ChatSystem/ChatUsers";
 import { PostList } from "../_components/PostingPage/PostList";
 import { NewPost } from "../_components/PostingPage/NewPost";
 import { EditPost } from "../_components/PostingPage/EditPost";
+import RememberedPosts from "../_components/RememberedPosts";
 
 function App() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ function App() {
         <Route exact path="/pokalbiai">
           <ChatUsers />
         </Route>
+        <Route exact path="/remembered-posts" component={RememberedPosts}></Route>
         <Route exact path="/listings/:kind/:keyword" component={ListingsPage}></Route>
         <Route exact path="/listings/search" component={ListingsPage}></Route>
         <Route exact path="/listings/:id" component={ListingPage}></Route>

@@ -6,7 +6,7 @@ import Pagination from "./Pagination";
 import { SizeMe } from "react-sizeme";
 import FiltersPanel from "./FiltersPanel";
 
-import { postService, accountService } from "@/_services";
+import { postService, accountService, alertService } from "@/_services";
 import "./index.css";
 import Categories from "./Categories";
 import { history } from "../../_helpers";
@@ -14,6 +14,7 @@ import Navbar from "../Navbar";
 import Zero from "../Images/Zero";
 
 const ListingsPage = (props) => {
+  const user = accountService.userValue;
   const filterKind = props.match.params.kind;
   let keyword = decodeURI(props.match.params.keyword);
   keyword = keyword === "undefined" ? "" : keyword;
@@ -46,6 +47,21 @@ const ListingsPage = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
+
+  const rememberPost = (id) => {
+    if (user) {
+      postService.rememberPost(id, user.id).then((res) => {
+        console.log("response after remembering post", res);
+        if (res.success) {
+          alertService.success("Skelbimas sėkmingai įsimintas");
+        } else {
+          alertService.error("Skelbimo įsiminti nepavyko");
+        }
+      });
+    } else {
+      alertService.error("Norėdami įsiminti skelbimą, prisijunkite");
+    }
+  };
 
   return (
     <SizeMe>
@@ -108,11 +124,14 @@ const ListingsPage = (props) => {
                   listings.slice((page - 1) * 8, (page - 1) * 8 + 8).map((x, i) =>
                     size.width > 558 ? (
                       <div key={`listing-${i}`} className="col-lg-3 col-md-4 col-6 p-3">
-                        <ListingCard listing={x}></ListingCard>
+                        <ListingCard rememberPost={rememberPost} listing={x}></ListingCard>
                       </div>
                     ) : (
                       <div key={`listing-${i}`} className="col-12 p-3">
-                        <ListingCardMobile listing={x}></ListingCardMobile>
+                        <ListingCardMobile
+                          rememberPost={rememberPost}
+                          listing={x}
+                        ></ListingCardMobile>
                       </div>
                     )
                   )

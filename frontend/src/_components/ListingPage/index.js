@@ -5,37 +5,114 @@ import TimeIcon from "./images/DeliveryTime";
 import RevsionsIcon from "./images/Revisions";
 import ArrowBackIcon from "./images/ArrowBack";
 import { history } from "../../_helpers";
-import { postService, accountService } from "@/_services";
+import { postService, accountService, alertService, suspensionService } from "@/_services";
 import Navbar from "../Navbar";
+import Flag from "./images/Flag";
+import HeartIcon from "../Images/HeartIcon";
+import { elementAt } from "rxjs/operators";
 
 const Listing = (props) => {
   const user = accountService.userValue;
+  console.log("user", user);
   const id = props.match.params.id;
   const [listing, setListing] = useState({});
   const [mainImage, setMainImage] = useState(0);
 
   useEffect(() => {
     postService.getPostById(id).then((res) => {
+      console.log("Response", res);
       if (res.success) {
         setListing(res.data);
       }
     });
   }, [id]);
 
+  const rememberPost = () => {
+    if (user) {
+      postService.rememberPost(id, user.id).then((res) => {
+        console.log("response after remembering post", res);
+        if (res.success) {
+          alertService.success("Skelbimas sėkmingai įsimintas");
+        } else {
+          alertService.error("Skelbimo įsiminti nepavyko");
+        }
+      });
+    } else {
+      alertService.error("Norėdami įsiminti skelbimą, prisijunkite");
+    }
+  };
+
+  const suspendUser = () => {
+    if (user && Object.keys(listing).length) {
+      let adminName = user.firstName + " " + user.lastName;
+      suspensionService.suspendUser(listing.account.id, adminName).then((res) => {
+        console.log("Responose suspend user", res);
+        if (res.success) {
+          alertService.success("Vartotojas sėkmingai suspenduotas");
+        } else {
+          alertService.error("Kažkas nepavyko");
+        }
+      });
+    } else {
+      alertService.error("Prisijunkite ir pabandykite iš naujo");
+    }
+  };
+
+  const suspendPost = () => {
+    if (user && Object.keys(listing).length) {
+      let adminName = user.firstName + " " + user.lastName;
+      suspensionService.suspendPost(listing.id, adminName).then((res) => {
+        console.log("Responose suspend post", res);
+        if (res.success) {
+          alertService.success("Skelbimas sėkmingai suspenduotas");
+        } else {
+          alertService.error("Kažkas nepavyko");
+        }
+      });
+    } else {
+      alertService.error("Prisijunkite ir pabandykite iš naujo");
+    }
+  };
+
   return Object.keys(listing).length ? (
-    <div className="container-fluid main px-0">
+    <div className="container-fluid main px-0 pb-5">
       <Navbar></Navbar>
       <div className="row no-gutters mx-auto" style={{ maxWidth: "1250px" }}>
         <div className="col-12">
-          <div
-            className="p-4 d-flex align-items-center cursor-pointer"
-            onClick={() => history.go(-1)}
-          >
-            <div className="d-flex mr-2">
-              <ArrowBackIcon></ArrowBackIcon>
+          <div className="row no-gutters justify-content-between align-items-center">
+            <div
+              className="p-4 d-flex align-items-center cursor-pointer col-auto"
+              onClick={() => history.go(-1)}
+            >
+              <div className="d-flex mr-2">
+                <ArrowBackIcon></ArrowBackIcon>
+              </div>
+              <div>Grįžti atgal</div>
             </div>
-            <div>Grįžti atgal</div>
+            <div className="col-auto d-flex aling-items-center p-3">
+              <div
+                onClick={suspendUser}
+                className="mr-3 d-flex align-items-center px-2 py-1"
+                style={{ borderRadius: "7px", background: "#F1F1F1", cursor: "pointer" }}
+              >
+                <div className="mr-3">
+                  <Flag></Flag>
+                </div>
+                <div>User</div>
+              </div>
+              <div
+                onClick={suspendPost}
+                className="d-flex align-items-center px-2 py-1"
+                style={{ borderRadius: "7px", background: "#F1F1F1", cursor: "pointer" }}
+              >
+                <div className="mr-3">
+                  <Flag></Flag>
+                </div>
+                <div>Post</div>
+              </div>
+            </div>
           </div>
+
           <div className="row no-gutters font-weight-bold px-4" style={{ fontSize: "34px" }}>
             {listing.title}
           </div>
@@ -109,16 +186,25 @@ const Listing = (props) => {
               </div>
 
               <div
-                className="pl-4 pr-2 py-2 d-inline-flex justify-content-between bg-theme align-items-center text-white"
-                style={{ borderRadius: "13px" }}
+                className="pl-4 pr-2 py-2 mr-3 d-inline-flex justify-content-between bg-theme align-items-center text-white"
+                style={{ borderRadius: "13px", cursor: "pointer" }}
               >
                 <div className="col-auto mr-3">Susisiekti</div>
-                <div
-                  className="col-auto square-35 d-flex flex-center"
-                  style={{ background: `rgba(255,255,255,0.2)`, borderRadius: "8px" }}
-                >
+                <div className="col-auto square-35 d-flex flex-center">
                   <div>
                     <ChatIcon></ChatIcon>
+                  </div>
+                </div>
+              </div>
+              <div
+                onClick={rememberPost}
+                className="pl-4 pr-2 py-2 d-inline-flex justify-content-between align-items-center"
+                style={{ borderRadius: "13px", background: "#E7E7E7", cursor: "pointer" }}
+              >
+                <div className="col-auto mr-3">Įsiminti</div>
+                <div className="col-auto square-35 d-flex flex-center">
+                  <div>
+                    <HeartIcon></HeartIcon>
                   </div>
                 </div>
               </div>
