@@ -7,6 +7,8 @@ export const reportService = {
     getAllUserReports,
     getAllPostReports,
     clearReport,
+    reportUser,
+    reportPost
 };
 
 function getAllUserReports() {
@@ -19,4 +21,13 @@ function getAllPostReports() {
 
 function clearReport(id, adminName) {
     return fetchWrapper.put(`${baseUrl}/clear`, {id: id, adminName: adminName});
+}
+
+function reportUser(id, category) {
+
+    return fetchWrapper.post(`${baseUrl}/user`, {category: category, accountId: id});
+}
+
+function reportPost(id, category) {
+    return fetchWrapper.post(`${baseUrl}/post`, {category: category, postId: id});
 }

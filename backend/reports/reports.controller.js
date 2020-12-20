@@ -25,7 +25,7 @@ function reportUserSchema(req, res, next) {
 
 function reportUser(req, res, next) {
     reportService.reportUser(req.body)
-        .then(() => res.json({ message: 'Vartotojas paskūstas.'}))
+        .then(() => res.status(200).json({ message: 'Vartotojas paskūstas.', success: true}))
         .catch(next);
 }
 
@@ -39,7 +39,7 @@ function  reportPostSchema(req, res, next) {
 
 function reportPost(req, res, next) {
     reportService.reportPost(req.body)
-        .then(() => res.json({ message: 'Skelbimas paskūstas.'}))
+        .then(() => res.status(200).json({ message: 'Skelbimas paskūstas.', success: true}))
         .catch(next);
 }
 

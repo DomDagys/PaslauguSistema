@@ -5,7 +5,7 @@ import TimeIcon from "./images/DeliveryTime";
 import RevsionsIcon from "./images/Revisions";
 import ArrowBackIcon from "./images/ArrowBack";
 import { history } from "../../_helpers";
-import { postService, accountService, alertService, suspensionService } from "@/_services";
+import { postService, accountService, alertService, suspensionService, reportService } from "@/_services";
 import Navbar from "../Navbar";
 import Flag from "./images/Flag";
 import HeartIcon from "../Images/HeartIcon";
@@ -42,13 +42,13 @@ const Listing = (props) => {
     }
   };
 
-  const suspendUser = () => {
+  const reportUser = () => {
     if (user && Object.keys(listing).length) {
-      let adminName = user.firstName + " " + user.lastName;
-      suspensionService.suspendUser(listing.account.id, adminName).then((res) => {
+      var category = "Smurtas";
+      reportService.reportUser(listing.account.id, category).then((res) => {
         console.log("Responose suspend user", res);
         if (res.success) {
-          alertService.success("Vartotojas sėkmingai suspenduotas");
+          alertService.success("Vartotojas sėkmingai paskųstas");
         } else {
           alertService.error("Kažkas nepavyko");
         }
@@ -58,13 +58,13 @@ const Listing = (props) => {
     }
   };
 
-  const suspendPost = () => {
+  const reportPost = () => {
     if (user && Object.keys(listing).length) {
-      let adminName = user.firstName + " " + user.lastName;
-      suspensionService.suspendPost(listing.id, adminName).then((res) => {
+      var category = "Smurtas";
+      reportService.reportPost(listing.id, category).then((res) => {
         console.log("Responose suspend post", res);
         if (res.success) {
-          alertService.success("Skelbimas sėkmingai suspenduotas");
+          alertService.success("Skelbimas sėkmingai paskųstas");
         } else {
           alertService.error("Kažkas nepavyko");
         }
@@ -91,7 +91,7 @@ const Listing = (props) => {
             </div>
             <div className="col-auto d-flex aling-items-center p-3">
               <div
-                onClick={suspendUser}
+                onClick={reportUser}
                 className="mr-3 d-flex align-items-center px-2 py-1"
                 style={{ borderRadius: "7px", background: "#F1F1F1", cursor: "pointer" }}
               >
@@ -101,7 +101,7 @@ const Listing = (props) => {
                 <div>User</div>
               </div>
               <div
-                onClick={suspendPost}
+                onClick={reportPost}
                 className="d-flex align-items-center px-2 py-1"
                 style={{ borderRadius: "7px", background: "#F1F1F1", cursor: "pointer" }}
               >
