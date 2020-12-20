@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { postService } from '../../_services';
-import UserPostRow from './UserPostRow';
+import {UserPostRow} from '../rows';
 import '../../styles/Admin.css'
 
 class UserPostsTable extends Component {

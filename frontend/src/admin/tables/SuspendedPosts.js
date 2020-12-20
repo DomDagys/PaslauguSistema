@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Table, Button} from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { suspensionService } from '../../_services';
-import SuspendedUserRow from './SuspendedUserRow';
+import {SuspendedPostRow} from '../rows';
 import '../../styles/Admin.css';
 
-class SuspendedUsers extends Component {
+class SuspendedPosts extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          suspendedUsers: null,
+          suspendedPosts: null,
           sortedSuspensions: null,
           sortCategory: "Visos",
           sortBy: "None",
@@ -20,14 +20,14 @@ class SuspendedUsers extends Component {
     }
 
     componentDidMount() {
-      suspensionService.getSuspendedUsers()
-        .then(users => this.setState({suspendedUsers: users, sortedSuspensions: users}));
+      suspensionService.getSuspendedPosts().then(suspensions => 
+        this.setState({suspendedPosts: suspensions, sortedSuspensions: suspensions}));
     }
 
     handleSort(){
-      if (this.state.suspendedUsers === null)
+      if (this.state.suspendedPosts === null)
         return;
-      let suspensions = this.state.suspendedUsers;
+      let suspensions = this.state.suspendedPosts;
       if (this.state.sortCategory !== "Visos")
         suspensions = suspensions.filter(suspension => suspension.reason.includes(this.state.sortCategory));
       if (this.state.sortBy === "suspensions"){
@@ -54,7 +54,7 @@ class SuspendedUsers extends Component {
     render() { 
       let count = 1;
         return ( <div className="adminTable">
-            <h1 className="center">Suspenduoti vartotojai</h1>
+            <h1 className="center">Suspenduoti skelbimai</h1>
             <table>
               <tbody>
               <tr>
@@ -91,11 +91,12 @@ class SuspendedUsers extends Component {
               </tr>
               </tbody>
             </table>
-<Table striped bordered hover>
-  <thead>
+            <Table striped bordered hover>
+            <thead>
     <tr>
       <th>#</th>
-      <th>Vartotojo vardas</th>
+      <th>Skelbimo pavadinimas</th>
+      <th>Skelbimo kūrėjas</th>
       <th>Priežastis</th>
       <th>Paskundimu skaicius</th>
       <th>Suspenduotas administratoriaus</th>
@@ -104,12 +105,12 @@ class SuspendedUsers extends Component {
     </tr>
   </thead>
   <tbody>
-    {this.state.sortedSuspensions &&
-    this.state.sortedSuspensions.map(user => <SuspendedUserRow key={count} number={count++} {...user}/>)}
+  {this.state.sortedSuspensions &&
+    this.state.sortedSuspensions.map(post => <SuspendedPostRow key={count} number={count++} {...post} />)}
   </tbody>
 </Table>
         </div> );
     }
 }
  
-export { SuspendedUsers };
+export { SuspendedPosts };

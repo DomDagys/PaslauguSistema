@@ -40,4 +40,4 @@ class ReportedPostRow extends Component {
     }
 }
  
-export default ReportedPostRow;
+export { ReportedPostRow };

@@ -42,4 +42,4 @@ class SuspendedPostRow extends Component {
     }
 }
  
-export default SuspendedPostRow;
+export {SuspendedPostRow};

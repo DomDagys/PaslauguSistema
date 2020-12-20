@@ -32,4 +32,4 @@ class SuspendedUserRow extends Component {
     }
 }
  
-export default SuspendedUserRow;
+export {SuspendedUserRow};

@@ -32,4 +32,4 @@ class UserRow extends Component {
     }
 }
  
-export default UserRow;
+export {UserRow};

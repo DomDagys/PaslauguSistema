@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { accountService } from '../../_services';
-import UserRow from './UserRow';
+import {UserRow} from '../rows';
 import '../../styles/Admin.css';
 
 class UserTable extends Component {

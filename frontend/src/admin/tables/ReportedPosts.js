@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
-import { suspensionService } from '../../_services';
-import SuspendedPostRow from './SuspendedPostRow';
+import { reportService } from '../../_services/report.service';
+import {ReportedPostRow} from '../rows';
 import '../../styles/Admin.css';
 
-class SuspendedPosts extends Component {
+class ReportedPosts extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          suspendedPosts: null,
-          sortedSuspensions: null,
+          postReports: null,
+          sortedReports: null,
           sortCategory: "Visos",
           sortBy: "None",
           sortOrder: "Decreasing"
@@ -19,31 +19,31 @@ class SuspendedPosts extends Component {
          this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-      suspensionService.getSuspendedPosts().then(suspensions => 
-        this.setState({suspendedPosts: suspensions, sortedSuspensions: suspensions}));
+    componentDidMount(){
+      reportService.getAllPostReports().then(reports => this.setState({ postReports: reports, sortedReports: reports }))
     }
 
+
     handleSort(){
-      if (this.state.suspendedPosts === null)
+      if (this.state.postReports === null)
         return;
-      let suspensions = this.state.suspendedPosts;
+      let reports = this.state.postReports;
       if (this.state.sortCategory !== "Visos")
-        suspensions = suspensions.filter(suspension => suspension.reason.includes(this.state.sortCategory));
-      if (this.state.sortBy === "suspensions"){
+        reports = reports.filter(report => report.category === this.state.sortCategory);
+      if (this.state.sortBy === "Reports"){
         if (this.state.sortOrder === "Increasing"){
-          suspensions = suspensions.sort((a, b) => (a.reportCount > b.reportCount? 1 : -1));
+          reports = reports.sort((a, b) => (a.count > b.count? 1 : -1));
         } else if (this.state.sortOrder === "Decreasing"){
-          suspensions = suspensions.sort((a, b) => (a.reportCount < b.reportCount? 1 : -1));
+          reports = reports.sort((a, b) => (a.count < b.count? 1 : -1));
         }
       } else if (this.state.sortBy === "Date"){
         if (this.state.sortOrder === "Increasing"){
-          suspensions = suspensions.sort((a, b) => (a.from > b.from? 1 : -1));
+          reports = reports.sort((a, b) => (a.lastReported > b.lastReported? 1 : -1));
         } else if (this.state.sortOrder === "Decreasing"){
-          suspensions = suspensions.sort((a, b) => (a.from < b.from? 1 : -1));
+          reports = reports.sort((a, b) => (a.lastReported < b.lastReported? 1 : -1));
         }
       }
-      this.setState({sortedSuspensions: suspensions});
+      this.setState({sortedReports: reports});
     }
 
     handleChange(event){
@@ -54,7 +54,7 @@ class SuspendedPosts extends Component {
     render() { 
       let count = 1;
         return ( <div className="adminTable">
-            <h1 className="center">Suspenduoti skelbimai</h1>
+            <h1 className="center">Paskųsti skelbimai</h1>
             <table>
               <tbody>
               <tr>
@@ -71,13 +71,12 @@ class SuspendedPosts extends Component {
                     <option value="Smurtas">Smurtas</option>
                     <option value="Šlamštas">Šlamštas</option>
                     <option value="Neapykantos kurstymas">Neapykantos kurstymas</option>
-                    <option value="Suspenduotas administratoriaus">Suspenduotas administratoriaus</option>
                   </select>
                 </td>
                 <td>
                   <select className="sortSelect" name="sortBy" onChange={this.handleChange}>
                     <option value="None">Nieką</option>
-                    <option value="suspensions">Paskundimus</option>
+                    <option value="Reports">Paskundimus</option>
                     <option value="Date">Paskundimo Data</option>
                   </select>
                 </td>
@@ -91,26 +90,27 @@ class SuspendedPosts extends Component {
               </tr>
               </tbody>
             </table>
+            <br/>
+
             <Table striped bordered hover>
-            <thead>
+  <thead>
     <tr>
       <th>#</th>
       <th>Skelbimo pavadinimas</th>
       <th>Skelbimo kūrėjas</th>
-      <th>Priežastis</th>
-      <th>Paskundimu skaicius</th>
-      <th>Suspenduotas administratoriaus</th>
-      <th>Nuo</th>
+      <th>Kategorija</th>
+      <th>Paskundimų skaičius</th>
+      <th>Paskutinį kartą paskųstas</th>
       <th>Veiksmai</th>
     </tr>
   </thead>
   <tbody>
-  {this.state.sortedSuspensions &&
-    this.state.sortedSuspensions.map(post => <SuspendedPostRow key={count} number={count++} {...post} />)}
+    {this.state.sortedReports&&
+    this.state.sortedReports.map(report => <ReportedPostRow key={count} number={count++} {...report}/>)}
   </tbody>
-</Table>
+</Table>    
         </div> );
     }
 }
  
-export { SuspendedPosts };
+export { ReportedPosts };

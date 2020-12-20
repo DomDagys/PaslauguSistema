@@ -41,4 +41,4 @@ class ReportedUserRow extends Component {
     }
 }
  
-export default ReportedUserRow;
+export {ReportedUserRow};

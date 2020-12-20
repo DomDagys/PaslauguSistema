@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'react-bootstrap';
-import { reportService } from '../../_services/report.service';
-import ReportedUserRow from './ReportedUserRow';
+import { Table, Button} from 'react-bootstrap';
+import { suspensionService } from '../../_services';
+import {SuspendedUserRow} from '../rows';
 import '../../styles/Admin.css';
 
-class ReportedUsers extends Component {
+class SuspendedUsers extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          userReports: null,
-          sortedReports: null,
+          suspendedUsers: null,
+          sortedSuspensions: null,
           sortCategory: "Visos",
           sortBy: "None",
           sortOrder: "Decreasing"
@@ -19,30 +19,31 @@ class ReportedUsers extends Component {
          this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount(){
-      reportService.getAllUserReports().then(data => this.setState({userReports: data, sortedReports: data}));
+    componentDidMount() {
+      suspensionService.getSuspendedUsers()
+        .then(users => this.setState({suspendedUsers: users, sortedSuspensions: users}));
     }
 
     handleSort(){
-      if (this.state.userReports === null)
+      if (this.state.suspendedUsers === null)
         return;
-      let reports = this.state.userReports;
+      let suspensions = this.state.suspendedUsers;
       if (this.state.sortCategory !== "Visos")
-        reports = reports.filter(report => { console.log(report.category === this.state.sortCategory); return report.category === this.state.sortCategory});
-      if (this.state.sortBy === "Reports"){
+        suspensions = suspensions.filter(suspension => suspension.reason.includes(this.state.sortCategory));
+      if (this.state.sortBy === "suspensions"){
         if (this.state.sortOrder === "Increasing"){
-          reports = reports.sort((a, b) => (a.count > b.count? 1 : -1));
+          suspensions = suspensions.sort((a, b) => (a.reportCount > b.reportCount? 1 : -1));
         } else if (this.state.sortOrder === "Decreasing"){
-          reports = reports.sort((a, b) => (a.count < b.count? 1 : -1));
+          suspensions = suspensions.sort((a, b) => (a.reportCount < b.reportCount? 1 : -1));
         }
       } else if (this.state.sortBy === "Date"){
         if (this.state.sortOrder === "Increasing"){
-          reports = reports.sort((a, b) => (a.lastReported > b.lastReported? 1 : -1));
+          suspensions = suspensions.sort((a, b) => (a.from > b.from? 1 : -1));
         } else if (this.state.sortOrder === "Decreasing"){
-          reports = reports.sort((a, b) => (a.lastReported < b.lastReported? 1 : -1));
+          suspensions = suspensions.sort((a, b) => (a.from < b.from? 1 : -1));
         }
       }
-      this.setState({sortedReports: reports});
+      this.setState({sortedSuspensions: suspensions});
     }
 
     handleChange(event){
@@ -52,9 +53,8 @@ class ReportedUsers extends Component {
 
     render() { 
       let count = 1;
-      console.log(this.state);
         return ( <div className="adminTable">
-            <h1 className="center">Paskųsti vartotojai</h1>
+            <h1 className="center">Suspenduoti vartotojai</h1>
             <table>
               <tbody>
               <tr>
@@ -71,12 +71,13 @@ class ReportedUsers extends Component {
                     <option value="Smurtas">Smurtas</option>
                     <option value="Šlamštas">Šlamštas</option>
                     <option value="Neapykantos kurstymas">Neapykantos kurstymas</option>
+                    <option value="Suspenduotas administratoriaus">Suspenduotas administratoriaus</option>
                   </select>
                 </td>
                 <td>
                   <select className="sortSelect" name="sortBy" onChange={this.handleChange}>
                     <option value="None">Nieką</option>
-                    <option value="Reports">Paskundimus</option>
+                    <option value="suspensions">Paskundimus</option>
                     <option value="Date">Paskundimo Data</option>
                   </select>
                 </td>
@@ -90,24 +91,25 @@ class ReportedUsers extends Component {
               </tr>
               </tbody>
             </table>
-            <Table striped bordered hover>
+<Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
       <th>Vartotojo vardas</th>
-      <th>Kategorija</th>
-      <th>Paskundimų skaičius</th>
-      <th>Paskutinį kartą paskųstas</th>
+      <th>Priežastis</th>
+      <th>Paskundimu skaicius</th>
+      <th>Suspenduotas administratoriaus</th>
+      <th>Nuo</th>
       <th>Veiksmai</th>
     </tr>
   </thead>
   <tbody>
-    {this.state.sortedReports && 
-    this.state.sortedReports.map(report => <ReportedUserRow key={count} number={count++} {...report}/>)}
+    {this.state.sortedSuspensions &&
+    this.state.sortedSuspensions.map(user => <SuspendedUserRow key={count} number={count++} {...user}/>)}
   </tbody>
-</Table>    
+</Table>
         </div> );
     }
 }
  
-export { ReportedUsers };
+export { SuspendedUsers };
