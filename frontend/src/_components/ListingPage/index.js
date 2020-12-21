@@ -5,7 +5,13 @@ import TimeIcon from "./images/DeliveryTime";
 import RevsionsIcon from "./images/Revisions";
 import ArrowBackIcon from "./images/ArrowBack";
 import { history } from "../../_helpers";
-import { postService, accountService, alertService, suspensionService, reportService } from "@/_services";
+import {
+  postService,
+  accountService,
+  alertService,
+  suspensionService,
+  reportService,
+} from "@/_services";
 import Navbar from "../Navbar";
 import Flag from "./images/Flag";
 import HeartIcon from "../Images/HeartIcon";
@@ -13,14 +19,12 @@ import { elementAt } from "rxjs/operators";
 
 const Listing = (props) => {
   const user = accountService.userValue;
-  console.log("user", user);
   const id = props.match.params.id;
   const [listing, setListing] = useState({});
   const [mainImage, setMainImage] = useState(0);
 
   useEffect(() => {
     postService.getPostById(id).then((res) => {
-      console.log("Response", res);
       if (res.success) {
         setListing(res.data);
       }
@@ -30,7 +34,6 @@ const Listing = (props) => {
   const rememberPost = () => {
     if (user) {
       postService.rememberPost(id, user.id).then((res) => {
-        console.log("response after remembering post", res);
         if (res.success) {
           alertService.success("Skelbimas sėkmingai įsimintas");
         } else {
@@ -46,7 +49,6 @@ const Listing = (props) => {
     if (user && Object.keys(listing).length) {
       var category = "Smurtas";
       reportService.reportUser(listing.account.id, category).then((res) => {
-        console.log("Responose suspend user", res);
         if (res.success) {
           alertService.success("Vartotojas sėkmingai paskųstas");
         } else {
@@ -62,7 +64,6 @@ const Listing = (props) => {
     if (user && Object.keys(listing).length) {
       var category = "Smurtas";
       reportService.reportPost(listing.id, category).then((res) => {
-        console.log("Responose suspend post", res);
         if (res.success) {
           alertService.success("Skelbimas sėkmingai paskųstas");
         } else {

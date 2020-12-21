@@ -18,7 +18,6 @@ const ListingsPage = (props) => {
   const filterKind = props.match.params.kind;
   let keyword = decodeURI(props.match.params.keyword);
   keyword = keyword === "undefined" ? "" : keyword;
-  console.log("filter kind and keyw", filterKind, keyword);
   const [listings, setListings] = useState([]);
   const [initialListings, setInitialListings] = useState([]);
   const [page, setPage] = useState(1);
@@ -27,7 +26,6 @@ const ListingsPage = (props) => {
   useEffect(() => {
     if (filterKind === "category") {
       postService.getPostsByCategory(keyword).then((res) => {
-        console.log("Response", res);
         if (res.success) {
           setListings(res.data);
           setInitialListings(res.data);
@@ -35,7 +33,6 @@ const ListingsPage = (props) => {
       });
     } else {
       postService.getPostsBySearch(keyword).then((res) => {
-        console.log("Response", res);
         if (res.success) {
           setInitialListings(res.data);
           setListings(res.data);
@@ -51,7 +48,6 @@ const ListingsPage = (props) => {
   const rememberPost = (id) => {
     if (user) {
       postService.rememberPost(id, user.id).then((res) => {
-        console.log("response after remembering post", res);
         if (res.success) {
           alertService.success("Skelbimas sėkmingai įsimintas");
         } else {

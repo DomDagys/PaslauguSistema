@@ -3,8 +3,6 @@ import HeartIcon from "../Images/HeartIcon";
 import { history } from "../../_helpers";
 
 const ListingCard = ({ listing, rememberPost }) => {
-  console.log("listing", listing);
-
   return (
     <div
       onClick={() => history.push("/listings/" + listing.id)}

@@ -18,7 +18,7 @@ export const postService = {
   deletePost,
   archivePost,
   getArchivedPosts,
-  unarchivePost
+  unarchivePost,
 };
 
 function getPostsByCategory(category) {
@@ -49,7 +49,7 @@ function getPostsByUsername(username) {
   return fetchWrapper.get(`${baseUrl}/userPosts?username=${username}`);
 }
 
-function getUserPosts(accoundId) {
+function getUserPosts(accountId) {
   return fetchWrapper.get(`${baseUrl}/creatorPosts/${accountId}`);
 }
 
@@ -58,7 +58,7 @@ function addPost(post) {
 }
 
 function editPost(post) {
-  return fetchWrapper.put(`${baseUrl}/updatePost/${post.postId}`, post);
+  return fetchWrapper.put(`${baseUrl}/updatePost/${post.id}`, post);
 }
 
 function deletePost(postId) {

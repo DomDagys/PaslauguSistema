@@ -12,9 +12,9 @@ import LandingPage from "../_components/LandingPage";
 import ListingsPage from "../_components/ListingsPage";
 import ListingPage from "../_components/ListingPage";
 import ChatUsers from "../_components/ChatSystem/ChatUsers";
-import { PostList } from "../_components/PostingPage/PostList";
-import { NewPost } from "../_components/PostingPage/NewPost";
-import { EditPost } from "../_components/PostingPage/EditPost";
+import PostList from "../_components/PostingPage/PostList";
+import NewPost from "../_components/PostingPage/NewPost";
+import EditPost from "../_components/PostingPage/EditPost";
 import RememberedPosts from "../_components/RememberedPosts";
 
 function App() {
@@ -58,9 +58,7 @@ function App() {
         <Route path="/newpost">
           <NewPost />
         </Route>
-        <Route path="/editpost">
-          <EditPost />
-        </Route>
+        <Route path="/editpost/:id" component={EditPost}></Route>
         <Route path="/" component={LandingPage} />
         <Redirect from="*" to="/" />
       </Switch>
