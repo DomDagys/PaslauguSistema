@@ -16,6 +16,9 @@ router.post("/", authorize(), addPostSchema, addPost);
 router.get("/creatorPosts/:id", authorize(), getPostsByAccountId)
 router.delete("/removePost/:id", authorize(), removePost);
 router.put("/updatePost/:id", authorize(), updatePostSchema, updatePost);
+router.put("/archive/:id", archivePost);
+router.get("/getArchived", authorize(), getArchivedPosts);
+router.put("/unarchive/:id", authorize(), unarchivePost);
 
 module.exports = router;
 
@@ -86,6 +89,27 @@ function removePost(req, res, next) {
   let accountId = req.user.id;
   let postId = req.params.id;
   postService.removePost(accountId, postId)
+    .then(message => res.json({ message: message }))
+    .catch(next);
+}
+
+function archivePost(req, res, next) {
+  let postId = req.params.id;
+  postService.archivePost(postId)
+    .then(message => res.json({ message: message}))
+    .catch(next);
+}
+
+function getArchivedPosts(req, res, next) {
+  let accountId = req.user.id;
+  postService.getArchivedPosts(accountId)
+    .then(posts => res.json({ posts: posts }))
+    .catch(next);
+}
+
+function unarchivePost(req, res, next) {
+  let postId = req.params.id;
+  postService.unarchivePost(postId)
     .then(message => res.json({ message: message }))
     .catch(next);
 }

@@ -2,6 +2,7 @@ const db = require("_helpers/db");
 const { Op } = require("sequelize");
 const tableNames = require('../_helpers/dbTables');
 const { QueryTypes } = require('sequelize');
+const { func } = require("joi");
 
 module.exports = {
   getPostsByCategory,
@@ -13,7 +14,10 @@ module.exports = {
   addPost,
   getPostsByAccountId,
   removePost,
-  updatePost
+  updatePost,
+  archivePost,
+  getArchivedPosts,
+  unarchivePost
 };
 
 async function rememberPost(req, res) {
@@ -218,4 +222,27 @@ async function updatePost(postId, accountId, body) {
   const post = await db.Post.findOne({ where: { id: postId, accountId: accountId } });
   Object.assign(post, body);
   await post.save();
+}
+
+async function archivePost(postId) {
+  const post = await db.Post.findOne({ where: { id: postId } });
+  if (!post)
+    return "Skelbimas nerastas";
+  post.isActive = 0;
+  await post.save();
+  return "Skelbimas archyvuotas";
+}
+
+async function getArchivedPosts(accountId) {
+  const posts = await db.Post.findAll({ where: { accountId: accountId, isActive: 0 }});
+  return posts;
+}
+
+async function unarchivePost(postId) {
+  const post = await db.Post.findOne({ where: { id: postId } });
+  if (!post)
+    return "Skelbimas nerastas";
+  post.isActive = 1;
+  await post.save();
+  return "Skelbimas vėl matomas";
 }

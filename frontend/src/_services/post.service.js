@@ -15,7 +15,10 @@ export const postService = {
   getUserPosts,
   addPost,
   editPost,
-  deletePost
+  deletePost,
+  archivePost,
+  getArchivedPosts,
+  unarchivePost
 };
 
 function getPostsByCategory(category) {
@@ -51,13 +54,25 @@ function getUserPosts(accoundId) {
 }
 
 function addPost(post) {
-  return fetch.post(`${baseUrl}/`, post);
+  return fetchWrapper.post(`${baseUrl}/`, post);
 }
 
 function editPost(post) {
-  return fetch.put(`${baseUrl}/updatePost/${post.postId}`, post);
+  return fetchWrapper.put(`${baseUrl}/updatePost/${post.postId}`, post);
 }
 
 function deletePost(postId) {
-  return fetch.delete(`${baseUrl}/removePost/${postId}`);
+  return fetchWrapper.delete(`${baseUrl}/removePost/${postId}`);
+}
+
+function archivePost(postId) {
+  return fetchWrapper.put(`${baseUrl}/archive/${postId}`, {});
+}
+
+function unarchivePost(postId) {
+  return fetchWrapper.put(`${baseUrl}/unarchive/${postId}`, {});
+}
+
+function getArchivedPosts() {
+  return fetchWrapper.get(`${baseUrl}/getArchived`);
 }
