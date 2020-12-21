@@ -31,12 +31,14 @@ const InvitePoster = () => {
               {detales}
             </div>
             <div className="d-flex">
-              <div
-                className="col-auto px-5 py-2 bg-theme-darker d-none d-md-block"
-                style={{ borderRadius: "25px", fontSize: "18px" }}
-              >
-                Pradėti
-              </div>
+              <a href="/account/register">
+                <div
+                  className="col-auto px-5 py-2 bg-theme-darker d-none d-md-block"
+                  style={{ borderRadius: "25px", fontSize: "18px" }}
+                >
+                  Pradėti
+                </div>
+              </a>
               <div
                 className="col-auto px-5 py-3 bg-theme-darker d-block d-md-none"
                 style={{ borderRadius: "25px", fontSize: "14px" }}

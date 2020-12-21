@@ -142,6 +142,7 @@ const Listing = (props) => {
                       onClick={() => setMainImage(i)}
                       className="col-image"
                       style={{
+                        cursor: "pointer",
                         borderRadius: "8px",
                         backgroundImage: `url(${x})`,
                         backgroundSize: "cover",

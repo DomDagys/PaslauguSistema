@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, Container, InputGroup } from "react-bootstrap";
 import { postService, accountService, alertService } from "@/_services";
+import { history } from "../../_helpers";
 
 const EditPost = (props) => {
   const postId = props.match.params.id;
@@ -39,7 +40,7 @@ const EditPost = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className="py-5">
       <h1 className="center">Skelbimo redagavimas</h1>
       <Container>
         <Form
@@ -51,6 +52,7 @@ const EditPost = (props) => {
               .editPost(p)
               .then((res) => {
                 alertService.success("Skelbimas sėkmingai redaguotas");
+                history.push("/postlist");
               })
               .catch((error) => {
                 alertService.error(error);

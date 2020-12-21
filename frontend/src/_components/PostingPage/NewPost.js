@@ -24,7 +24,7 @@ const NewPost = () => {
     accountId: user.id,
   });
   return (
-    <div>
+    <div className="py-5">
       <h1 className="center">Naujas skelbimas</h1>
       <Container>
         <Form

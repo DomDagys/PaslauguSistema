@@ -99,7 +99,7 @@ function Alert({ id, fade }) {
   return (
     <div
       className="container mx-auto"
-      style={{ position: "fixed", bottom: 10, zIndex: 100, left: 0, right: 0 }}
+      style={{ position: "fixed", top: 10, zIndex: 100, left: 0, right: 0 }}
     >
       <div className="m-3">
         {alerts.map((alert, index) => (

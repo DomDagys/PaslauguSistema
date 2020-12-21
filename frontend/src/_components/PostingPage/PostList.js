@@ -19,7 +19,9 @@ const PostList = () => {
     <div className="p-5 mx-auto" style={{ maxWidth: "1300px" }}>
       <h1 className="center">Vartotojo skelbimai</h1>
       <h6>
-        <a href="/newpost">Naujas skelbimas </a>
+        <a href="/newpost" className="btn btn-primary">
+          Naujas skelbimas{" "}
+        </a>
       </h6>
       <div className="table-responsive">
         <table className="table">
@@ -61,36 +63,42 @@ const PostList = () => {
                     Redaguoti
                   </button>
                   <a target="_blank" href={`/listings/${x.id}`}>
-                    <button disabled={x.isActive? false: true} className="btn btn-secondary mb-2">Peržiūrėti</button>
+                    <button disabled={x.isActive ? false : true} className="btn btn-secondary mb-2">
+                      Peržiūrėti
+                    </button>
                   </a>
 
-                  {x.isActive? 
+                  {x.isActive ? (
                     <button
                       className="btn btn-info"
                       onClick={() => {
                         const archive = confirm("Ar tikrai norite archyvuoti skelbimą?");
                         if (archive) {
-                          postService.archivePost(x.id)
-                            .then(res => alertService.success(res.message))
-                            .catch(res => alertService.error(res.message));
+                          postService
+                            .archivePost(x.id)
+                            .then((res) => alertService.success(res.message))
+                            .catch((res) => alertService.error(res.message));
                         }
                       }}
                     >
                       Archyvuoti
-                    </button>:
+                    </button>
+                  ) : (
                     <button
                       className="btn btn-info"
                       onClick={() => {
                         const unarchive = confirm("Ar tikrai norite aktyvuoti skelbimą?");
                         if (unarchive) {
-                          postService.unarchivePost(x.id)
-                            .then(res => alertService.success(res.message))
-                            .catch(res => alertService.error(res.message));
+                          postService
+                            .unarchivePost(x.id)
+                            .then((res) => alertService.success(res.message))
+                            .catch((res) => alertService.error(res.message));
                         }
                       }}
                     >
                       Aktyvuoti
-                    </button>}
+                    </button>
+                  )}
 
                   <button
                     className="btn btn-danger"
@@ -102,10 +110,9 @@ const PostList = () => {
                             alertService.success("Skelbimas pašalintas");
                             setRefresh(!refresh);
                           }
-                        })
+                        });
                       }
-                    }
-                  }
+                    }}
                   >
                     Trinti
                   </button>
