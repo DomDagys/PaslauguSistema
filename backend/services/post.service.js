@@ -64,7 +64,7 @@ async function getPostById(req, res) {
     const suspended = await db.Suspension.count({ where: { postId: id } });
     if (suspended > 0) res.json({ error: "Skelbimas suspenduotas." });
     const post = await db.Post.findOne({
-      where: { id: id },
+      where: { id: id, isActive: 1 },
       include: [
         {
           model: db.Account,
@@ -73,6 +73,8 @@ async function getPostById(req, res) {
         },
       ],
     });
+    if (!post)
+      res.json({ error: "Skelbimas nerastas", success: false });
     res.json({ success: true, data: post });
   } else {
     res.json({ error: "Nenurodytas id." });
@@ -99,7 +101,7 @@ async function getPostsByCategory(req, res) {
       where: {
         [Op.and]: [
           db.sequelize.where(db.sequelize.col("suspensions.postId"), "IS", null),
-          { category: key },
+          { category: key, isActive: 1 },
         ],
       },
     });
@@ -120,9 +122,9 @@ async function getPostsBySearch(req, res) {
             db.sequelize.where(db.sequelize.col("suspensions.postId"), "IS", null),
             {
               [Op.or]: [
-                { title: { [Op.substring]: key } },
-                { category: { [Op.substring]: key } },
-                { description: { [Op.substring]: key } },
+                { title: { [Op.substring]: key }, isActive: 1 },
+                { category: { [Op.substring]: key }, isActive: 1 },
+                { description: { [Op.substring]: key }, isActive: 1 },
               ],
             },
           ],
@@ -203,7 +205,7 @@ async function addPost(body) {
 }
 
 async function getPostsByAccountId(accountId) {
-  const posts = await db.Post.findAll({ where: {accountId: accountId} });
+  const posts = await db.Post.findAll({ where: {accountId: accountId, isActive: 1} });
   return posts;
 }
 
