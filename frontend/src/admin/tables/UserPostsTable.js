@@ -22,7 +22,7 @@ class UserPostsTable extends Component {
     }
 
     getUserPosts() {
-      postService.getUserPosts(this.state.searchedUser)
+      postService.getPostsByUsername(this.state.searchedUser)
         .then(posts => this.setState({userPosts: posts}));
     }
 

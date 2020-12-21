@@ -11,7 +11,6 @@ module.exports = {
     getSuspendedPosts,
     removePostSuspension,
     removePost,
-    suspendUser,
     getSuspendedUsers,
     removeUserSuspension,
     isUserSuspended,
@@ -79,10 +78,6 @@ async function removePost(postId) {
 }
 
 async function suspendUser(accountId, adminName) {
-    const user = await db.Account.findOne({where: {id: accountId}});
-    if (!user || user.role === "Admin")
-        return null;
-
     let category = "";
     let count = 0;
     const reportCount = await db.Report.count({where: {accountId: accountId, cleared: 0}});
@@ -99,6 +94,10 @@ async function suspendUser(accountId, adminName) {
     let clearDate = dateConverter.convertDate(new Date(curDate));
     await db.sequelize.query("UPDATE "+ tableNames.Reports +" SET count = '0', cleared = '1', clearDate = '" +
     clearDate + "', clearedBy = '"+ adminName +"' WHERE accountId = '"+ accountId +"'", {type: QueryTypes.UPDATE});
+
+    const user = await db.Account.findOne({where: {id: accountId}});
+    if (!user || user.role === "Admin")
+        return null;
 
     let suspended = await db.Suspension.count({where: {accountId: accountId}});
     if (suspended > 0)

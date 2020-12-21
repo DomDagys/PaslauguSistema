@@ -1,5 +1,7 @@
 const db = require("_helpers/db");
 const { Op } = require("sequelize");
+const tableNames = require('../_helpers/dbTables');
+const { QueryTypes } = require('sequelize');
 
 module.exports = {
   getPostsByCategory,
@@ -8,6 +10,10 @@ module.exports = {
   getUserPosts,
   rememberPost,
   getRememberedPosts,
+  addPost,
+  getPostsByAccountId,
+  removePost,
+  updatePost
 };
 
 async function rememberPost(req, res) {
@@ -167,4 +173,49 @@ async function getUserPosts(username) {
     const posts = await db.Post.findAll({ where: { accountId: user.id } });
     return { posts: posts, username: user.firstName + " " + user.lastName };
   }
+}
+
+async function addPost(body) {
+  let { title, description, category, price, 
+    deliveryTime, images, accountId } = body;
+  let count = await db.Post.count({where: {title: title}});
+  if (count > 0)
+    throw "Jau yra skelbimas su tokia antrašte.";
+  
+  const post = new db.Post({
+    title: title,
+    description: description,
+    isActive: 1,
+    category: category,
+    views: 0,
+    price: price,
+    deliveryTime: deliveryTime,
+    images: images,
+    revisions: 0,
+    accountId: accountId
+  });
+
+  await post.save();
+}
+
+async function getPostsByAccountId(accountId) {
+  const posts = await db.Post.findAll({ where: {accountId: accountId} });
+  return posts;
+}
+
+async function removePost(accountId, postId) {
+  let count = await db.Post.count({ where: {accountId: accountId, id: postId}});
+  if (count === 0)
+    return "Skelbimas nerastas arba skelbimas yra kito vartotojo.";
+  await db.sequelize.query("DELETE FROM "+ tableNames.Reports +" WHERE postId = '"+ postId +"'", {type: QueryTypes.DELETE});
+  await db.sequelize.query("DELETE FROM "+ tableNames.Suspensions +" WHERE postId = '"+ postId +"'", {type: QueryTypes.DELETE});
+  const post = await db.Post.findOne({ where: { id: postId } });
+  await post.destroy();
+  return "Skelbimas pašalintas.";
+}
+
+async function updatePost(postId, accountId, body) {
+  const post = await db.Post.findOne({ where: { id: postId, accountId: accountId } });
+  Object.assign(post, body);
+  await post.save();
 }
