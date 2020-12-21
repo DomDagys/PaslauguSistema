@@ -61,19 +61,51 @@ const PostList = () => {
                     Redaguoti
                   </button>
                   <a target="_blank" href={`/listings/${x.id}`}>
-                    <button className="btn btn-secondary mb-2">Peržiūrėti</button>
+                    <button disabled={x.isActive? false: true} className="btn btn-secondary mb-2">Peržiūrėti</button>
                   </a>
+
+                  {x.isActive? 
+                    <button
+                      className="btn btn-info"
+                      onClick={() => {
+                        const archive = confirm("Ar tikrai norite archyvuoti skelbimą?");
+                        if (archive) {
+                          postService.archivePost(x.id)
+                            .then(res => alertService.success(res.message))
+                            .catch(res => alertService.error(res.message));
+                        }
+                      }}
+                    >
+                      Archyvuoti
+                    </button>:
+                    <button
+                      className="btn btn-info"
+                      onClick={() => {
+                        const unarchive = confirm("Ar tikrai norite aktyvuoti skelbimą?");
+                        if (unarchive) {
+                          postService.unarchivePost(x.id)
+                            .then(res => alertService.success(res.message))
+                            .catch(res => alertService.error(res.message));
+                        }
+                      }}
+                    >
+                      Aktyvuoti
+                    </button>}
 
                   <button
                     className="btn btn-danger"
-                    onClick={() =>
-                      postService.deletePost(x.id).then((res) => {
-                        if (!res.error) {
-                          alertService.success("Skelbimas pašalintas");
-                          setRefresh(!refresh);
-                        }
-                      })
+                    onClick={() => {
+                      const confirmDelete = confirm("Ar tikrai norite ištrinti savo skelbimą?");
+                      if (confirmDelete) {
+                        postService.deletePost(x.id).then((res) => {
+                          if (!res.error) {
+                            alertService.success("Skelbimas pašalintas");
+                            setRefresh(!refresh);
+                          }
+                        })
+                      }
                     }
+                  }
                   >
                     Trinti
                   </button>

@@ -46,6 +46,7 @@ function addPostSchema(req, res, next) {
   validateRequest(req, next, schema);
 }
 
+
 async function addPost(req, res, next) {
   try {
     await postService.addPost(req.body);
@@ -85,31 +86,40 @@ async function updatePost(req, res, next) {
   }
 }
 
-function removePost(req, res, next) {
-  let accountId = req.user.id;
-  let postId = req.params.id;
-  postService.removePost(accountId, postId)
-    .then(message => res.json({ message: message }))
-    .catch(next);
+async function removePost(req, res, next) {
+  try {
+    let accountId = req.user.id;
+    let postId = req.params.id;
+    await postService.removePost(accountId, postId);
+    res.status(200).json({ message: "Skelbimas pašalintas.", success: true });
+  } catch (error) {
+    res.status(400).json({ message: error, success: false});
+  }
 }
 
-function archivePost(req, res, next) {
-  let postId = req.params.id;
-  postService.archivePost(postId)
-    .then(message => res.json({ message: message}))
-    .catch(next);
+async function archivePost(req, res, next) {
+  try {
+    let postId = req.params.id;
+    await postService.archivePost(postId)
+    res.json({ message: "Skelbimas archyvuotas", success: true });
+  } catch (error) {
+    res.status(400).json({ message: error, success: false});
+  }
 }
 
 function getArchivedPosts(req, res, next) {
   let accountId = req.user.id;
   postService.getArchivedPosts(accountId)
-    .then(posts => res.json({ posts: posts }))
+    .then(posts => res.json(posts))
     .catch(next);
 }
 
-function unarchivePost(req, res, next) {
-  let postId = req.params.id;
-  postService.unarchivePost(postId)
-    .then(message => res.json({ message: message }))
-    .catch(next);
+async function unarchivePost(req, res, next) {
+  try {
+    let postId = req.params.id;
+    await postService.unarchivePost(postId)
+    res.json({ message: "Skelbimas vėl matomas", success: true });
+  } catch (error) {
+    res.status(400).json({ message: error, success: false});
+  }
 }

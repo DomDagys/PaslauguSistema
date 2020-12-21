@@ -205,19 +205,18 @@ async function addPost(body) {
 }
 
 async function getPostsByAccountId(accountId) {
-  const posts = await db.Post.findAll({ where: {accountId: accountId, isActive: 1} });
+  const posts = await db.Post.findAll({ where: {accountId: accountId} });
   return posts;
 }
 
 async function removePost(accountId, postId) {
   let count = await db.Post.count({ where: {accountId: accountId, id: postId}});
   if (count === 0)
-    return "Skelbimas nerastas arba skelbimas yra kito vartotojo.";
+    throw "Skelbimas nerastas arba skelbimas yra kito vartotojo.";
   await db.sequelize.query("DELETE FROM "+ tableNames.Reports +" WHERE postId = '"+ postId +"'", {type: QueryTypes.DELETE});
   await db.sequelize.query("DELETE FROM "+ tableNames.Suspensions +" WHERE postId = '"+ postId +"'", {type: QueryTypes.DELETE});
   const post = await db.Post.findOne({ where: { id: postId } });
   await post.destroy();
-  return "Skelbimas pašalintas.";
 }
 
 async function updatePost(postId, accountId, body) {
@@ -229,10 +228,9 @@ async function updatePost(postId, accountId, body) {
 async function archivePost(postId) {
   const post = await db.Post.findOne({ where: { id: postId } });
   if (!post)
-    return "Skelbimas nerastas";
+    throw "Skelbimas nerastas";
   post.isActive = 0;
   await post.save();
-  return "Skelbimas archyvuotas";
 }
 
 async function getArchivedPosts(accountId) {
@@ -243,8 +241,7 @@ async function getArchivedPosts(accountId) {
 async function unarchivePost(postId) {
   const post = await db.Post.findOne({ where: { id: postId } });
   if (!post)
-    return "Skelbimas nerastas";
+    throw "Skelbimas nerastas";
   post.isActive = 1;
   await post.save();
-  return "Skelbimas vėl matomas";
 }

@@ -47,7 +47,7 @@ const Listing = (props) => {
 
   const reportUser = () => {
     if (user && Object.keys(listing).length) {
-      var category = "Smurtas";
+      var category = prompt("Kokia paskundimo priežastis?");
       reportService.reportUser(listing.account.id, category).then((res) => {
         if (res.success) {
           alertService.success("Vartotojas sėkmingai paskųstas");
@@ -62,7 +62,7 @@ const Listing = (props) => {
 
   const reportPost = () => {
     if (user && Object.keys(listing).length) {
-      var category = "Smurtas";
+      var category = prompt("Kokia paskundimo priežastis?");
       reportService.reportPost(listing.id, category).then((res) => {
         if (res.success) {
           alertService.success("Skelbimas sėkmingai paskųstas");
